@@ -16,7 +16,7 @@ function fakeFetchUser(): User {
     };
     const num_of_entries = Math.floor(Math.random() * (25 - 0 + 1)) + 0;
 
-    for (let i = 0; i < num_of_entries; i++) {
+    for (let i = 1; i <= num_of_entries; i++) {
         const entry: Entry = {
             id: i,
             title: faker.company.name(),
