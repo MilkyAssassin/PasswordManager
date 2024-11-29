@@ -33,7 +33,7 @@
     {:else if 0 < vault.length}
         {#each vault as entry}
             <button
-                class="flex justify-between px-10 py-4 cursor-pointer w-full"
+                class="flex justify-between px-10 py-4 cursor-pointer w-full bg-[#fef7ff] hover:bg-white"
                 onclick={() => (selectedEntry = entry)}
             >
                 <div class="flex gap-4">
