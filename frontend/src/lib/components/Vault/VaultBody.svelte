@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import type { Context, Entry } from "@my-types/types";
     import { fade, fly } from "svelte/transition";
+    import SoloEntry from "./SoloEntry.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -39,7 +40,7 @@
         }
     }
 
-    let selectedEntry: Entry | undefined | null = $state(undefined);
+    let selectedEntry: Entry | undefined | null = $state(null);
 </script>
 
 <div>
@@ -66,6 +67,7 @@
         Your vault is empty, please add a password
     {/if}
 
-    {#if selectedEntry === undefined || selectedEntry !== null}
+    {#if selectedEntry !== null}
+        <SoloEntry bind:selectedEntry />
     {/if}
 </div>
