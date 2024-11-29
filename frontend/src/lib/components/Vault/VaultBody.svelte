@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getContext } from "svelte";
-    import type { Context, Entry } from "../../../types/types";
+    import type { Context, Entry } from "@my-types/types";
     import { fade, fly } from "svelte/transition";
 
     type sortType =
@@ -38,7 +38,7 @@
                 return e2.dateCreated.getTime() - e1.dateCreated.getTime();
         }
     }
-    
+
     let selectedEntry: Entry | undefined | null = $state(undefined);
 </script>
 
@@ -67,20 +67,5 @@
     {/if}
 
     {#if selectedEntry === undefined || selectedEntry !== null}
-        <div
-            class="fixed h-3/4 bottom-0 left-28 right-28 bg-blue-900 z-50"
-            transition:fly={{ y: 200, duration: 1000 }}
-        >
-            <h1>Edit Entry</h1>
-            Selected entry: {vault[0]}
-        </div>
-
-        <button
-            class="fixed left-0 right-0 bottom-0 top-0 bg-black opacity-80"
-            aria-label="Close opened modal"
-            onclick={() => (selectedEntry = null)}
-            transition:fade={{ duration: 1000 }}
-        >
-        </button>
     {/if}
 </div>

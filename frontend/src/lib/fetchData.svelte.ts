@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { User, Entry } from "../types/types";
+import type { User, Entry } from "@my-types/types";
 
 const API_URL = "";
 export async function fetchUser(): Promise<User> {

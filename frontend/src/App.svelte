@@ -2,7 +2,7 @@
     import Vault from "./lib/components/Vault/index.svelte";
     import Sidebar from "./lib/components/Sidebar.svelte";
     import { setContext } from "svelte";
-    import type { Context } from "./types/types";
+    import type { Context } from "@my-types/types";
     import { fetchUser } from "./lib/fetchData.svelte";
 
     let context: Context = $state({
