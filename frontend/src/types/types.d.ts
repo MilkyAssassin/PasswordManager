@@ -5,8 +5,8 @@ export type Entry = {
     password: string;
     url: string;
     notes: string;
-    dateCreated: string;
-    lastUsed: string;
+    dateCreated: Date;
+    lastUsed: Date;
 }
 
 export interface User {

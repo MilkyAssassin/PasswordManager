@@ -15,7 +15,9 @@
 
     let { search = $bindable(), sort = $bindable() }: props = $props();
     let context: Context = getContext("context");
-    let vault = $derived((context.user?.vault || []).filter(filter));
+    let vault = $derived(
+        (context.user?.vault || []).filter(filter).sort(compareFn)
+    );
     function filter(e: Entry) {
         if (e.title.includes(search)) return true;
         if (e.notes.includes(search)) return true;
@@ -23,8 +25,21 @@
         if (e.username.includes(search)) return true;
         return false;
     }
+
+    function compareFn(e1: Entry, e2: Entry): number {
+        switch (sort) {
+            case "AlphabeticalOrder":
+                return e1.title.localeCompare(e2.title);
+            case "AlphabeticalOrderReverse":
+                return e2.title.localeCompare(e1.title);
+            case "DateCreated":
+                return e1.dateCreated.getTime() - e2.dateCreated.getTime();
+            case "DateCreatedReverse":
+                return e2.dateCreated.getTime() - e1.dateCreated.getTime();
+        }
+    }
+    
     let selectedEntry: Entry | undefined | null = $state(undefined);
-    $inspect(selectedEntry);
 </script>
 
 <div>
@@ -56,6 +71,7 @@
             class="fixed h-3/4 bottom-0 left-28 right-28 bg-blue-900 z-50"
             transition:fly={{ y: 200, duration: 1000 }}
         >
+            <h1>Edit Entry</h1>
             Selected entry: {vault[0]}
         </div>
 

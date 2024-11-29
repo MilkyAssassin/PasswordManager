@@ -25,11 +25,9 @@ function fakeFetchUser(): User {
             password: faker.internet.password(),
             notes: faker.lorem.text(),
             dateCreated: faker.date
-                .between({ from: "2000-01-01", to: "2015-01-01" })
-                .toDateString(),
+                .between({ from: "2000-01-01", to: "2015-01-01" }),
             lastUsed: faker.date
-                .between({ from: "2020-01-01", to: Date.now() })
-                .toDateString(),
+                .between({ from: "2020-01-01", to: Date.now() }),
         };
         response.vault.push(entry);
     }

@@ -5,7 +5,7 @@
     let sort: "AlphabeticalOrder"|"AlphabeticalOrderReverse"|"DateCreated"|"DateCreatedReverse" = $state("AlphabeticalOrder")
 </script>
 
-<div class="w-full bg-gray-600 h-full">
+<div class="w-full bg-[#fef7ff] h-full">
     <Header bind:search={search} bind:sort={sort} />
     <VaultBody bind:search={search} bind:sort={sort}/>
 </div>
