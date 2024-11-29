@@ -13,35 +13,66 @@
     transition:fly={{ y: 200, duration: 1000 }}
 >
     <h1 class="text-xl text-center text-white">Edit Entry</h1>
+    <hr class="pb-1" />
     <div class="grid grid-cols-2 gap-8">
         <div>
-            <label class="block" for="">Title:</label>
-            <input class='w-full' type="text" bind:value={entry.title} />
+            <label class="block text-lg" for="">Title:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="text"
+                bind:value={entry.title}
+            />
         </div>
         <div>
-            <label class="block" for="">Username:</label>
-            <input class='w-full' type="text" bind:value={entry.username} />
+            <label class="block text-lg" for="">Username:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="text"
+                bind:value={entry.username}
+            />
         </div>
         <div>
-            <label class="block" for="">Password:</label>
-            <input class='w-full' type="password" bind:value={entry.password} />
+            <label class="block text-lg" for="">Password:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="password"
+                bind:value={entry.password}
+            />
         </div>
         <div>
-            <label class="block" for="">URL:</label>
-            <input class='w-full' type="text" bind:value={entry.url} />
+            <label class="block text-lg" for="">URL:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="text"
+                bind:value={entry.url}
+            />
         </div>
         <div>
-            <label class="block" for="">Date created:</label>
-            <input class='w-full' type="text" disabled value={entry.dateCreated} />
+            <label class="block text-lg" for="">Date created:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="text"
+                disabled
+                value={entry.dateCreated}
+            />
         </div>
         <div>
-            <label class="block" for="">Last used:</label>
-            <input class='w-full' type="text" disabled value={entry.lastUsed} />
+            <label class="block text-lg" for="">Last used:</label>
+            <input
+                class="w-full mt-2 rounded px-2"
+                type="text"
+                disabled
+                value={entry.lastUsed}
+            />
         </div>
     </div>
     <div class="w-full">
         <label class="block" for="">Notes:</label>
-        <textarea class="block w-full h-40" bind:value={entry.notes}> </textarea>
+        <textarea
+            class="block w-full h-40 mt-2 rounded px-2"
+            bind:value={entry.notes}
+        >
+        </textarea>
     </div>
 </div>
 
