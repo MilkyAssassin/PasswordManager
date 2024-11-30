@@ -2,7 +2,7 @@
 // Thank you to @kevmodrome https://svelte.dev/playground/2254c3b9b9ba4eeda05d81d2816f6276?version=5.2.11
 
 function createNotificationStore(timeout) {
-    const _notifications:{}[] = $state([]);
+    const _notifications: {}[] = $state([]);
     function generateId() {
         return "_" + Math.random().toString(36).substr(2, 9);
     }
@@ -13,7 +13,6 @@ function createNotificationStore(timeout) {
 
         const timer = setTimeout(() => {
             let index = _notifications.findIndex((item) => item.id == id);
-            console.log("Removing: " + id + "at index: "+index);
             _notifications.splice(index, 1);
         }, timeout);
     }
