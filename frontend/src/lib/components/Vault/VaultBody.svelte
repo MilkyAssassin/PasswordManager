@@ -3,6 +3,8 @@
     import type { Context, Entry } from "@my-types/types";
     import SoloEntry from "../SoloEntry.svelte";
     import tippy from "tippy.js";
+    import { notifications } from "../Toast/notifications.svelte";
+    import Toast from "../Toast/Toast.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -55,6 +57,7 @@
     let selectedEntry: Entry | null = $state(null);
 </script>
 
+<Toast />
 <div>
     {#if context.isLoading}
         Loading...
@@ -65,11 +68,16 @@
             >
                 <button
                     onclick={() => {
-                        if (entry.password && entry.password != "")
+                        if (entry.password && entry.password != "") {
+                            notifications.success("Password Copied...", 1000);
                             navigator.clipboard.writeText(entry.password);
+                        }
                     }}
                     class="w-full h-full py-4"
-                    use:tooltip={() => ({ content: "Copy password", hideOnClick: false })}
+                    use:tooltip={() => ({
+                        content: "Copy password",
+                        hideOnClick: false,
+                    })}
                 >
                     <div class="flex gap-4">
                         <div
@@ -80,9 +88,14 @@
                         {entry.title}
                     </div>
                 </button>
-                <button onclick={() => (selectedEntry = entry)} class="py-4"
-                    use:tooltip={() => ({ content: "Edit entry", hideOnClick: false })}
-                    >
+                <button
+                    onclick={() => (selectedEntry = entry)}
+                    class="py-4"
+                    use:tooltip={() => ({
+                        content: "Edit entry",
+                        hideOnClick: false,
+                    })}
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
