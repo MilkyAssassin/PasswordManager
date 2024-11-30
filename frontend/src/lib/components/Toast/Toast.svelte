@@ -6,7 +6,7 @@
     import { fly } from "svelte/transition";
     import { notifications } from "./notifications.svelte.ts";
 
-    export let themes = {
+    let themes = {
         danger: "#E26D69",
         success: "#84C991",
         warning: "#f0ad4e",
@@ -16,7 +16,7 @@
 </script>
 
 <div class="notifications">
-    {#each $notifications as notification (notification.id)}
+    {#each notifications.notifications as notification (notification.id)}
         <div
             animate:flip
             class="toast"

@@ -1,38 +1,29 @@
 // @ts-nocheck
 // Thank you to @kevmodrome https://svelte.dev/playground/2254c3b9b9ba4eeda05d81d2816f6276?version=5.2.11
-import { writable, derived } from "svelte/store";
-
-const TIMEOUT = 3000;
 
 function createNotificationStore(timeout) {
-    const _notifications = writable([]);
+    const _notifications:{}[] = $state([]);
+    function generateId() {
+        return "_" + Math.random().toString(36).substr(2, 9);
+    }
 
     function send(message, type = "default", timeout) {
-        _notifications.update((state) => {
-            return [...state, { id: id(), type, message, timeout }];
-        });
+        const id = generateId();
+        _notifications.push({ id, type, message, timeout });
+
+        const timer = setTimeout(() => {
+            let index = _notifications.findIndex((item) => item.id == id);
+            console.log("Removing: " + id + "at index: "+index);
+            _notifications.splice(index, 1);
+        }, timeout);
     }
 
     let timers = [];
 
-    const notifications = derived(_notifications, ($_notifications, set) => {
-        set($_notifications);
-        if ($_notifications.length > 0) {
-            const timer = setTimeout(() => {
-                _notifications.update((state) => {
-                    state.shift();
-                    return state;
-                });
-            }, $_notifications[0].timeout);
-            return () => {
-                clearTimeout(timer);
-            };
-        }
-    });
-    const { subscribe } = notifications;
+    const notifications = $derived(_notifications);
 
     return {
-        subscribe,
+        notifications,
         send,
         default: (msg, timeout) => send(msg, "default", timeout),
         danger: (msg, timeout) => send(msg, "danger", timeout),
@@ -40,10 +31,6 @@ function createNotificationStore(timeout) {
         info: (msg, timeout) => send(msg, "info", timeout),
         success: (msg, timeout) => send(msg, "success", timeout),
     };
-}
-
-function id() {
-    return "_" + Math.random().toString(36).substr(2, 9);
 }
 
 export const notifications = createNotificationStore();
