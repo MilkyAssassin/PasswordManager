@@ -69,8 +69,8 @@
                 <button
                     onclick={() => {
                         if (entry.password && entry.password != "") {
-                            notifications.success("Password Copied...", 1000);
                             navigator.clipboard.writeText(entry.password);
+                            notifications.success("Password Copied!!!", 1000);
                         }
                     }}
                     class="w-full h-full py-4"

@@ -2,6 +2,7 @@
     import { fly, fade } from "svelte/transition";
     import type { Entry } from "@my-types/types";
     import tippy from "tippy.js";
+    import { notifications } from "./Toast/notifications.svelte";
 
     type props = {
         selectedEntry: Entry;
@@ -71,6 +72,7 @@
                     onclick={() => {
                         if (entry.password && entry.password != "")
                             navigator.clipboard.writeText(entry.password);
+                            notifications.success("Password Copied!!!", 1000);
                     }}
                     use:tooltip={() => ({ content: "Copy Password" })}
                 >
