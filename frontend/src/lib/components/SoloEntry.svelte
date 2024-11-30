@@ -4,7 +4,7 @@
     import tippy from "tippy.js";
 
     type props = {
-        selectedEntry: Entry|null;
+        selectedEntry: Entry;
         close: () => any;
         delete_entry: (entry:Entry) => any;
         save: (entry:Entry) => any;
@@ -151,7 +151,7 @@
     </div>
     <div class="h-5"></div>
     <div class="flex gap-6">
-        <button class="w-full h-10 bg-gray-600 rounded-lg text-red-600" onclick={delete_entry}
+        <button class="w-full h-10 bg-gray-600 rounded-lg text-red-600" onclick={()=>delete_entry(entry)}
             >Delete</button
         >
         <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={()=>save(entry)}

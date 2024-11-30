@@ -1,8 +1,8 @@
 <script lang="ts">
     import { getContext } from "svelte";
     import type { Context, Entry } from "@my-types/types";
-    import { fade, fly } from "svelte/transition";
     import SoloEntry from "../SoloEntry.svelte";
+    import tippy from "tippy.js";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -20,10 +20,14 @@
         (context.user?.vault || []).filter(filter).sort(compareFn)
     );
     function filter(e: Entry) {
-        if (e.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
-        if (e.notes.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
-        if (e.url.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
-        if (e.username.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
+        if (e.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            return true;
+        if (e.notes.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            return true;
+        if (e.url.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            return true;
+        if (e.username.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            return true;
         return false;
     }
 
@@ -40,6 +44,14 @@
         }
     }
 
+    function tooltip(node: Element, fn: () => {}) {
+        $effect(() => {
+            const tooltip = tippy(node, fn());
+
+            return tooltip.destroy;
+        });
+    }
+
     let selectedEntry: Entry | null = $state(null);
 </script>
 
@@ -48,20 +60,39 @@
         Loading...
     {:else if 0 < vault.length}
         {#each vault as entry}
-            <button
-                class="flex justify-between px-10 py-4 cursor-pointer w-full bg-[#fef7ff] hover:bg-white"
-                onclick={() => (selectedEntry = entry)}
+            <div
+                class="flex justify-between px-10 w-full bg-[#fef7ff] hover:bg-white"
             >
-                <div class="flex gap-4">
-                    <div
-                        class="rounded-full bg-[#d8cbea] text-[#625282] h-7 w-7 text-center align-middle leading-7"
-                    >
-                        {entry.username[0]}
+                <button
+                    onclick={() => {
+                        if (entry.password && entry.password != "")
+                            navigator.clipboard.writeText(entry.password);
+                    }}
+                    class="w-full h-full py-4"
+                    use:tooltip={() => ({ content: "Copy password", hideOnClick: false })}
+                >
+                    <div class="flex gap-4">
+                        <div
+                            class="rounded-full bg-[#d8cbea] text-[#625282] h-7 w-7 text-center align-middle leading-7"
+                        >
+                            {entry.username[0]}
+                        </div>
+                        {entry.title}
                     </div>
-                    {entry.title}
-                </div>
-                <span>|</span>
-            </button>
+                </button>
+                <button onclick={() => (selectedEntry = entry)} class="py-4"
+                    use:tooltip={() => ({ content: "Edit entry", hideOnClick: false })}
+                    >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        class="w-7 h-7"
+                        ><title>pencil</title><path
+                            d="M19.71,8.04L17.37,10.37L13.62,6.62L15.96,4.29C16.35,3.9 17,3.9 17.37,4.29L19.71,6.63C20.1,7 20.1,7.65 19.71,8.04M3,17.25L13.06,7.18L16.81,10.93L6.75,21H3V17.25M16.62,5.04L15.08,6.58L17.42,8.92L18.96,7.38L16.62,5.04M15.36,11L13,8.64L4,17.66V20H6.34L15.36,11Z"
+                        /></svg
+                    >
+                </button>
+            </div>
         {/each}
     {:else}
         Your vault is empty, please add a password
@@ -78,8 +109,8 @@
                 )
                     selectedEntry = null;
             }}
-            delete_entry={(entry:Entry) => {
-                alert("Write del function")
+            delete_entry={(entry: Entry) => {
+                alert("Write del function");
             }}
             save={() => alert("Write save func")}
         />
