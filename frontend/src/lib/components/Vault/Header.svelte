@@ -34,9 +34,9 @@
     }
 </script>
 
-<div class="w-full h-16 bg-green-900">
+<div class="w-full h-16  bg-white">
     <div class="h-4/6 relative top-1/2 -translate-y-1/2 ml-5 flex gap-4">
-        <div class="rounded-full bg-white px-4 h-full w-96 flex">
+        <div class="rounded-full bg-[#d8cbea] px-4 h-full w-96 flex">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full"
                     ><title>magnify</title><path
@@ -50,7 +50,7 @@
                 name="search"
                 placeholder="Search vault"
                 id=""
-                class="w-80 h-full"
+                class="w-80 h-full bg-[#d8cbea]"
             />
         </div>
         <button

@@ -4,12 +4,13 @@
     import tippy from "tippy.js";
 
     type props = {
-        entry: Entry;
-        close: () => {};
-        save: () => {};
+        selectedEntry: Entry|null;
+        close: () => any;
+        delete_entry: (entry:Entry) => any;
+        save: (entry:Entry) => any;
     };
-    let { selectedEntry = $bindable(), close, save } = $props();
-    let entry = $state($state.snapshot(selectedEntry)||{});
+    let { selectedEntry = $bindable(), close, save, delete_entry }:props = $props();
+    let entry = $state($state.snapshot(selectedEntry));
     let showPassword = $state(false);
 
     function tooltip(node: Element, fn: () => {}) {
@@ -25,6 +26,19 @@
     class="fixed h-4/5 bottom-0 overflow-y-auto left-28 right-28 bg-[#625282] z-50 p-5 rounded-t-2xl"
     transition:fly={{ y: 200, duration: 1000 }}
 >
+    <div class="absolute right-0 top-0">
+        <button onclick={close}>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-12 w-12"
+                ><title>close</title><path
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                    fill="white"
+                /></svg
+            >
+        </button>
+    </div>
     <h1 class="text-xl text-center text-white">Edit Entry</h1>
     <hr class="pb-1" />
     <div class="grid grid-cols-2 gap-8">
@@ -137,10 +151,10 @@
     </div>
     <div class="h-5"></div>
     <div class="flex gap-6">
-        <button class="w-full h-10 bg-gray-600 rounded-lg" onclick={close}
-            >Cancel</button
+        <button class="w-full h-10 bg-gray-600 rounded-lg text-red-600" onclick={delete_entry}
+            >Delete</button
         >
-        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={save}
+        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={()=>save(entry)}
             >Save</button
         >
     </div>

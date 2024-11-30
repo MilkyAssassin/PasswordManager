@@ -40,7 +40,7 @@
         }
     }
 
-    let selectedEntry: Entry | undefined | null = $state(null);
+    let selectedEntry: Entry | null = $state(null);
 </script>
 
 <div>
@@ -77,6 +77,9 @@
                     )
                 )
                     selectedEntry = null;
+            }}
+            delete_entry={(entry:Entry) => {
+                alert("Write del function")
             }}
             save={() => alert("Write save func")}
         />
