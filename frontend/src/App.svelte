@@ -7,6 +7,7 @@
 
     let context: Context = $state({
         isLoading: true,
+        isAuthed: false,
         user: null,
     });
 

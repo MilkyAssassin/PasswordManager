@@ -16,5 +16,6 @@ export interface User {
 
 export interface Context {
     isLoading: boolean;
+    isAuthed: boolean;
     user: User|null;
 }
