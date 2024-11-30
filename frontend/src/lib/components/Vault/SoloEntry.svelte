@@ -5,8 +5,8 @@
 
     type props = {
         entry: Entry;
-        close: ()=>{}
-        save: ()=>{}
+        close: () => {};
+        save: () => {};
     };
     let { selectedEntry = $bindable(), close, save } = $props();
     let entry = $state($state.snapshot(selectedEntry));
@@ -136,8 +136,12 @@
     </div>
     <div class="h-5"></div>
     <div class="flex gap-6">
-        <button class="w-full h-10 bg-gray-600 rounded-lg" onclick={close}>Cancel</button>
-        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={save}>Save</button>
+        <button class="w-full h-10 bg-gray-600 rounded-lg" onclick={close}
+            >Cancel</button
+        >
+        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={save}
+            >Save</button
+        >
     </div>
 </div>
 
