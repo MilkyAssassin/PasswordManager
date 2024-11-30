@@ -20,10 +20,10 @@
         (context.user?.vault || []).filter(filter).sort(compareFn)
     );
     function filter(e: Entry) {
-        if (e.title.includes(search)) return true;
-        if (e.notes.includes(search)) return true;
-        if (e.url.includes(search)) return true;
-        if (e.username.includes(search)) return true;
+        if (e.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
+        if (e.notes.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
+        if (e.url.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
+        if (e.username.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return true;
         return false;
     }
 
