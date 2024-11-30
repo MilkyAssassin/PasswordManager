@@ -3,6 +3,8 @@ package backend;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 import java.util.Base64;
 
 public class Encryption {
@@ -31,6 +33,15 @@ public class Encryption {
         byte[] decodedBytes = Base64.getDecoder().decode(cipherText); 
         byte[] decryptedBytes = cipher.doFinal(decodedBytes);
         return new String(decryptedBytes);
+    }
+
+    public static String encodeSecretKey(SecretKey secretKey) {
+        return Base64.getEncoder().encodeToString(secretKey.getEncoded());  // Convert key to string
+    }
+
+    public static SecretKey decodeSecretKey(String base64EncodedKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(base64EncodedKey);  // Decode from String
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, ALGORITHM);  // Create SecretKey from bytes
     }
 
 }
