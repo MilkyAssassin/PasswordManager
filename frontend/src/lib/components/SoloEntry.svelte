@@ -9,7 +9,7 @@
         save: () => {};
     };
     let { selectedEntry = $bindable(), close, save } = $props();
-    let entry = $state($state.snapshot(selectedEntry));
+    let entry = $state($state.snapshot(selectedEntry)||{});
     let showPassword = $state(false);
 
     function tooltip(node: Element, fn: () => {}) {
@@ -22,7 +22,7 @@
 </script>
 
 <div
-    class="fixed h-3/4 bottom-0 left-28 right-28 bg-[#625282] z-50 p-5 rounded-t-2xl"
+    class="fixed h-4/5 bottom-0 overflow-y-auto left-28 right-28 bg-[#625282] z-50 p-5 rounded-t-2xl"
     transition:fly={{ y: 200, duration: 1000 }}
 >
     <h1 class="text-xl text-center text-white">Edit Entry</h1>
@@ -55,7 +55,8 @@
                 />
                 <button
                     onclick={() => {
-                        navigator.clipboard.writeText(entry.password);
+                        if (entry.password && entry.password != "")
+                            navigator.clipboard.writeText(entry.password);
                     }}
                     use:tooltip={() => ({ content: "Copy Password" })}
                 >
@@ -129,7 +130,7 @@
     <div class="w-full">
         <label class="block" for="">Notes:</label>
         <textarea
-            class="block w-full h-40 rounded px-2"
+            class="block w-full h-52 rounded px-2"
             bind:value={entry.notes}
         >
         </textarea>
