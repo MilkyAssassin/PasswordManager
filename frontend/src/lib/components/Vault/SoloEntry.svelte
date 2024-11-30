@@ -1,16 +1,18 @@
 <script lang="ts">
     import { fly, fade } from "svelte/transition";
     import type { Entry } from "@my-types/types";
-	import tippy from 'tippy.js';
+    import tippy from "tippy.js";
 
     type props = {
         entry: Entry;
+        close: ()=>{}
+        save: ()=>{}
     };
-    let { selectedEntry = $bindable() } = $props();
+    let { selectedEntry = $bindable(), close, save } = $props();
     let entry = $state($state.snapshot(selectedEntry));
     let showPassword = $state(false);
 
-    function tooltip(node, fn) {
+    function tooltip(node: Element, fn: () => {}) {
         $effect(() => {
             const tooltip = tippy(node, fn());
 
@@ -55,7 +57,7 @@
                     onclick={() => {
                         navigator.clipboard.writeText(entry.password);
                     }}
-                    use:tooltip={() => ({ content:"Copy Password" })}
+                    use:tooltip={() => ({ content: "Copy Password" })}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +69,14 @@
                     >
                 </button>
 
-                <button onclick={() => (showPassword = !showPassword)}
-                    
-                    use:tooltip={() => ({ content: showPassword? "Hide password" : "Show password" })}
-                    >
+                <button
+                    onclick={() => (showPassword = !showPassword)}
+                    use:tooltip={() => ({
+                        content: showPassword
+                            ? "Hide password"
+                            : "Show password",
+                    })}
+                >
                     {#if !showPassword}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -128,19 +134,17 @@
         >
         </textarea>
     </div>
+    <div class="h-5"></div>
+    <div class="flex gap-6">
+        <button class="w-full h-10 bg-gray-600 rounded-lg" onclick={close}>Cancel</button>
+        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={save}>Save</button>
+    </div>
 </div>
 
 <button
     class="fixed left-0 right-0 bottom-0 top-0 bg-black opacity-80"
     aria-label="Close opened modal"
-    onclick={() => {
-        if (
-            window.confirm(
-                "Are you sure you want to close without saving your entry?"
-            )
-        )
-            selectedEntry = null;
-    }}
+    onclick={close}
     transition:fade={{ duration: 1000 }}
 >
 </button>

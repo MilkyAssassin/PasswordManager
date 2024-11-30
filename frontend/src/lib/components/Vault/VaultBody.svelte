@@ -68,6 +68,17 @@
     {/if}
 
     {#if selectedEntry !== null}
-        <SoloEntry bind:selectedEntry />
+        <SoloEntry
+            bind:selectedEntry
+            close={() => {
+                if (
+                    window.confirm(
+                        "Are you sure you want to close without saving your entry?"
+                    )
+                )
+                    selectedEntry = null;
+            }}
+            save={() => alert("Write save func")}
+        />
     {/if}
 </div>
