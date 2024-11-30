@@ -2,7 +2,7 @@
     import { getContext } from "svelte";
     import type { Context, Entry } from "@my-types/types";
     import { fade, fly } from "svelte/transition";
-    import SoloEntry from "./SoloEntry.svelte";
+    import SoloEntry from "../SoloEntry.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
