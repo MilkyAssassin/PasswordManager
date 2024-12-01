@@ -6,6 +6,7 @@ public class Password {
     public String website;
     public String username;
     public String encryptedPassword; 
+    private String plainPassword;
     public String securityQuestion;
     public int userID;
     public int passwordID;
@@ -14,9 +15,11 @@ public class Password {
         this.userID = userId;
         this.website = website;
         this.username = username;
+        this.plainPassword = password;
         this.encryptedPassword = Encryption.encrypt(password, secretKey);
         this.securityQuestion = securityQuestion;
     }
+
 
     public String getWebsite() {
         return website;
@@ -48,6 +51,30 @@ public class Password {
 
     public void setSecurityQuestion(String securityQuestion) {
         this.securityQuestion = securityQuestion;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getPasswordID() {
+        return passwordID;
+    }
+
+    public void setPasswordID(int passwordID) {
+        this.passwordID = passwordID;
+    }
+
+    public String getPlainPassword() {
+        return plainPassword;
+    }
+
+    public void setPlainPassword(String plainPassword) {
+        this.plainPassword = plainPassword;
     }
 
 }

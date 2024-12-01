@@ -2,23 +2,22 @@ package backend;
 
 import java.sql.*;
 import javax.crypto.*;
-
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class User {
-    private int userId;
-    private String username;
-    private String email;
-    private String password;
+    public static int userId;
+    public String username;
+    public String email;
+    public String password;
     
 
     // Constructor
     public User(int userId, String username, String email, String password) {
-        this.userId = userId;
+        User.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
-          // Store the secret key
     }
 
     // Getters
@@ -34,20 +33,16 @@ public class User {
         return email;
     }
 
-
-
-
-
     // User Registration
     public static boolean registerUser(Connection connection, String username, String email, String password) throws Exception {
-        String query = "INSERT INTO Users (Username, Email, password, SecretKey) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Users (Username, Email, PasswordHash, SecretKey) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             SecretKey secretKey = Encryption.genSecretKey();
-            String encryptedKey = Encryption.encodeSecretKey(secretKey);
+            byte[] secretKeyBytes = secretKey.getEncoded();
             statement.setString(1, username);
             statement.setString(2, email);
             statement.setString(3, password);
-            statement.setString(4, encryptedKey);
+            statement.setBytes(4, secretKeyBytes);
             statement.executeUpdate();
             System.out.println("User registered successfully.");
             return true;
@@ -58,7 +53,7 @@ public class User {
     }
     // User Login
     public static User loginUser(Connection connection, String username, String password) {
-        String query = "SELECT * FROM Users WHERE Username = ? AND password = ?";
+        String query = "SELECT * FROM Users WHERE Username = ? AND PasswordHash = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
             statement.setString(2, password);
@@ -79,26 +74,26 @@ public class User {
         }
     }
 
-    
-    
     public static SecretKey retrieveSecretKey(Connection connection, int userId) throws Exception {
-        String query = "SELECT SecretKey FROM Users WHERE UserID = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String encodedKey = resultSet.getString("SecretKey");
-                return Encryption.decodeSecretKey(encodedKey);
+
+        String query = "SELECT SecretKey FROM users WHERE UserID = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+
+                    byte[] keyBytes = rs.getBytes("SecretKey");
+                    
+
+                    SecretKey secretKey = new SecretKeySpec(keyBytes, 0, keyBytes.length, "AES");
+                    return secretKey;
+                } else {
+                    throw new SQLException("No secret key found for user with ID: " + userId);
+                }
             }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving secret key: " + e.getMessage());
         }
-        return null; 
     }
-    
 
-
-
-
-    
 }

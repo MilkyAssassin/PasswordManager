@@ -2,6 +2,7 @@ package backend;
 
 import java.sql.*;
 
+
 public class DatabaseConnection {
     private static final String url = "jdbc:sqlserver://database-1.cnqc6gewutb2.us-east-2.rds.amazonaws.com:1433;trustServerCertificate=true";
     private static final String user = "password_db";
@@ -51,7 +52,7 @@ public class DatabaseConnection {
         String useDatabaseQuery = "USE pmanager";
         try (Statement statement = connection.createStatement()) {
             statement.execute(useDatabaseQuery);
-            System.out.println("Switched to database: pmanager.");
+            
         } catch (SQLException e) {
             System.err.println("Failed to switch to the pmanager database.");
             e.printStackTrace();
