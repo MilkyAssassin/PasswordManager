@@ -27,6 +27,7 @@ public class Test {
             System.out.println("7. Exit");
             System.out.println("8. Edit Password");
             System.out.println("9. Show All Passwords");
+            System.out.println("10. Find Compromised Passwords");
             System.out.print("Enter your choice: ");
         
             int choice = scanner.nextInt();
@@ -136,7 +137,7 @@ public class Test {
                     }
                     break;
 
-                    case 9:
+                case 9:
                     // Show All Passwords and Sort
                     if (loggedInUser != null) {
                         boolean inShowPasswordsMenu = true;
@@ -178,6 +179,14 @@ public class Test {
                                     break;
                             }
                         }
+                    } else {
+                        System.out.println("Please log in first.");
+                    }
+                    break;
+
+                case 10:
+                    if (loggedInUser != null) {
+                        PasswordManager.listCompromisedPasswords(connection, loggedInUser);
                     } else {
                         System.out.println("Please log in first.");
                     }

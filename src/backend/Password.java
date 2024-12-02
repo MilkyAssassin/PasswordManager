@@ -77,6 +77,24 @@ public class Password {
         this.plainPassword = plainPassword;
     }
 
+    public static boolean isPasswordCompromised(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+    
+        try {
+            HIBPClient client = new HIBPClient("PasswordManager");
+            
+            boolean isNotCompromised = client.check(password);
+            
+            return !isNotCompromised;
+            
+        } catch (CheckPasswordException e) {
+            System.err.println("Error checking password: " + e.getMessage());
+            throw new RuntimeException("Failed to check password security", e);
+        }
+    }
+
 }
 
 

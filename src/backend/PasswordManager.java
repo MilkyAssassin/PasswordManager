@@ -1,5 +1,4 @@
 package backend;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -295,4 +294,50 @@ public class PasswordManager {
             System.out.println("Error processing passwords: " + e.getMessage());
         }
     }
+
+    public static void listCompromisedPasswords(Connection connection, User user) {
+        String query = "SELECT Website, EncryptedPassword FROM Passwords WHERE UserID = ?";
+        boolean foundCompromised = false;
+        
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, user.getUserId());
+            ResultSet resultSet = statement.executeQuery();
+    
+            SecretKey secretKey = User.retrieveSecretKey(connection, user.getUserId());
+            if (secretKey == null) {
+                System.out.println("Error: Secret key not found for user.");
+                return;
+            }
+    
+            System.out.println("compromised passwords");
+            System.out.println("---------------------------------------------------------");
+    
+            while (resultSet.next()) {
+                String website = resultSet.getString("Website");
+                String encryptedPassword = resultSet.getString("EncryptedPassword");
+                
+                try {
+                    String decryptedPassword = Encryption.decrypt(encryptedPassword, secretKey);
+                    if (Password.isPasswordCompromised(decryptedPassword)) {
+                        foundCompromised = true;
+                        System.out.println("Compromised password found!");
+                        System.out.println("Website: " + website);
+                        System.out.println("---------------------------------------------------------");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error checking password for website " + website + ": " + e.getMessage());
+                }
+            }
+    
+            if (!foundCompromised) {
+                System.out.println("No compromised passwords found.");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error processing passwords: " + e.getMessage());
+        }
+    }
+
 }
