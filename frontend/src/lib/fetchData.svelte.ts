@@ -12,7 +12,7 @@ const EDIT_METHOD = "";
 const ADD_ENDPOINT = API_URL + "";
 const ADD_METHOD = "";
 
-export async function login(data: {
+export async function login(body: {
     username: string;
     password: string;
 }): Promise<boolean> {
@@ -22,7 +22,7 @@ export async function login(data: {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         if (res.ok) {
             const data = await res.json();
@@ -40,14 +40,14 @@ export async function login(data: {
     }
 }
 
-export async function register(data: { username: string; password: string }) {
+export async function register(body: { username: string; password: string }) {
     try {
         const res = await fetch(REGISTER_ENDPOINT, {
             method: REGISTER_METHOD,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         if (res.ok) {
             const data = await res.json();
@@ -64,7 +64,22 @@ export async function register(data: { username: string; password: string }) {
     }
 }
 
-export async function fetchUser(): Promise<User> {
+export async function fetchUser(): Promise<User|null> {
+    // try {
+    //     const res = await fetch(REGISTER_ENDPOINT, {
+    //         method: REGISTER_METHOD,
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //     });
+    //     if (res.ok) {
+    //         const data = await res.json();
+    //         return data;
+    //     }
+    // } finally {
+    //     return null;
+    // }
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(fakeFetchUser()); // Simulate successful response
@@ -72,14 +87,14 @@ export async function fetchUser(): Promise<User> {
     });
 }
 
-export async function deletePassword(data: { passwordId: number }) {
+export async function deletePassword(body: { passwordId: number }) {
     try {
         const res = await fetch(DELETE_ENDPOINT, {
             method: DELETE_METHOD,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         if (res.ok) {
             const data = await res.json();
@@ -96,14 +111,14 @@ export async function deletePassword(data: { passwordId: number }) {
     }
 }
 
-export async function addPassword(data:Entry) {
+export async function addPassword(body: Entry) {
     try {
         const res = await fetch(ADD_ENDPOINT, {
             method: ADD_METHOD,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         if (res.ok) {
             const data = await res.json();
@@ -118,17 +133,16 @@ export async function addPassword(data:Entry) {
     } finally {
         return false;
     }
-
 }
 
-export async function editPassword(data:Entry) {
+export async function editPassword(body: Entry) {
     try {
         const res = await fetch(EDIT_ENDPOINT, {
             method: EDIT_METHOD,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         if (res.ok) {
             const data = await res.json();
@@ -142,7 +156,8 @@ export async function editPassword(data:Entry) {
         }
     } finally {
         return false;
-    }}
+    }
+}
 
 function fakeFetchUser(): User {
     let response: User = {
