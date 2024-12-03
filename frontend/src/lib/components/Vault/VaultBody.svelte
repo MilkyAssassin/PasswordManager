@@ -54,7 +54,7 @@
         });
     }
 
-    let selectedEntry: Entry | null = $state(null);
+    let selectedEntry: Entry | null = $state(null);    
 </script>
 
 <Toast />
