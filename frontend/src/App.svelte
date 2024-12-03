@@ -9,7 +9,6 @@
         isAuthed: false,
         user: null,
     });
-
     setContext("context", context);
 
     async function updateUser() {
@@ -28,16 +27,14 @@
         updateUser();
     });
 
-    // check cookies
-    // if cookies exist, 
-        // req User
-            // if response.ok
-                // read user
-            // else
-                    // redirect to login/register
-    // else
-        // redirect to login/register
-    // if it returns false, 
 </script>
 
-<Hub />
+{#if !context.isLoading}
+    {#if context.isAuthed}
+        <Hub />
+    {:else}
+        Not authed
+    {/if}
+{:else}
+    Loading...
+{/if}
