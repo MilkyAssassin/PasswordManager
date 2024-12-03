@@ -1,6 +1,8 @@
 package backend;
 
 import java.sql.*;
+import java.util.Scanner;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -10,6 +12,7 @@ public class User {
     public String username;
     public String email;
     public String password;
+    
     
 
     // Constructor
@@ -32,6 +35,59 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+
+    //Password Requirements Function
+    public static boolean validatePassword(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            System.out.println("Password cannot be null or empty");
+            return false;
+        }
+    
+        boolean isValid = true;
+        
+        if (password.length() < 12) {
+            System.out.println("Password must be at least 12 characters long");
+            isValid = false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            System.out.println("Password must contain at least one uppercase letter");
+            isValid = false;
+        }
+        if (!password.matches(".*[0-9].*")) {
+            System.out.println("Password must contain at least one number");
+            isValid = false;
+        }
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+            System.out.println("Password must contain at least one special character");
+            isValid = false;
+        }
+    
+        return isValid;
+    }
+
+    public static String getValidPassword(Scanner scanner) {
+    String password;
+    boolean isValid = false;
+    
+    do {
+        System.out.println("\nPassword Requirements:");
+        System.out.println("- At least 12 characters long");
+        System.out.println("- At least one uppercase letter");
+        System.out.println("- At least one number");
+        System.out.println("- At least one special character");
+        System.out.print("Enter password: ");
+        
+        password = scanner.nextLine();
+        isValid = validatePassword(password);
+        
+        if (!isValid) {
+            System.out.println("\nPassword does not meet requirements. Please try again.");
+        }
+    } while (!isValid);
+    
+    return password;
+}
 
     // User Registration
     public static boolean registerUser(Connection connection, String username, String email, String password) throws Exception {
@@ -74,6 +130,7 @@ public class User {
         }
     }
 
+
     public static SecretKey retrieveSecretKey(Connection connection, int userId) throws Exception {
 
         String query = "SELECT SecretKey FROM users WHERE UserID = ?";
@@ -96,4 +153,6 @@ public class User {
         }
     }
 
+    //2FA Functions
+    
 }

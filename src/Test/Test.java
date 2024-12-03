@@ -1,9 +1,13 @@
-package backend;
+package Test;
 
 import java.sql.*;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
+import backend.DatabaseConnection;
+import backend.Password;
+import backend.PasswordManager;
+import backend.User;
 
 
 public class Test {
@@ -72,8 +76,21 @@ public class Test {
                         String website = scanner.nextLine();
                         System.out.print("Enter username for the website: ");
                         String siteUsername = scanner.nextLine();
-                        System.out.print("Enter password for the website: ");
-                        String sitePassword = scanner.nextLine();
+                        System.out.println("\nPassword options:");
+                        System.out.println("1. Generate secure password");
+                        System.out.println("2. Enter password manually");
+                        System.out.print("Choose option (1 or 2): ");
+                        
+                        String sitePassword;
+                        String option = scanner.nextLine();
+                        
+                        if (option.equals("1")) {
+                            sitePassword = Password.generateSecurePassword();
+                            System.out.println("Generated password: " + sitePassword);
+                        } else {
+                            System.out.print("Enter password for the website: ");
+                            sitePassword = scanner.nextLine();
+                        }
                         System.out.print("Enter security question: ");
                         String securityQuestion = scanner.nextLine();
         

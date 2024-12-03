@@ -66,7 +66,7 @@ public class PasswordManager {
             }
         }
     }
-
+    
     
     //Shows all passwords for the User
     public static void showAllPasswords(Connection connection, User user) {
@@ -320,7 +320,7 @@ public class PasswordManager {
                     String decryptedPassword = Encryption.decrypt(encryptedPassword, secretKey);
                     if (Password.isPasswordCompromised(decryptedPassword)) {
                         foundCompromised = true;
-                        System.out.println("Compromised password found!");
+                        System.out.println("Compromised password found");
                         System.out.println("Website: " + website);
                         System.out.println("---------------------------------------------------------");
                     }

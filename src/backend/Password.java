@@ -1,5 +1,7 @@
 package backend;
 
+import java.security.SecureRandom;
+
 import javax.crypto.SecretKey;
 
 public class Password {
@@ -77,6 +79,48 @@ public class Password {
         this.plainPassword = plainPassword;
     }
 
+    public static String generateSecurePassword() {
+    final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    final String NUMBERS = "0123456789";
+    final String SPECIAL = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+    final int PASSWORD_LENGTH = 16;
+    
+    SecureRandom random = new SecureRandom();
+    StringBuilder password = new StringBuilder();
+
+    // Ensure at least one of each required character type
+    password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
+    password.append(LOWERCASE.charAt(random.nextInt(LOWERCASE.length())));
+    password.append(NUMBERS.charAt(random.nextInt(NUMBERS.length())));
+    password.append(SPECIAL.charAt(random.nextInt(SPECIAL.length())));
+
+    // Fill remaining length with random chars from all types
+    String allChars = UPPERCASE + LOWERCASE + NUMBERS + SPECIAL;
+    for (int i = password.length(); i < PASSWORD_LENGTH; i++) {
+        password.append(allChars.charAt(random.nextInt(allChars.length())));
+    }
+
+    // Shuffle the password
+    char[] passwordArray = password.toString().toCharArray();
+    for (int i = passwordArray.length - 1; i > 0; i--) {
+        int j = random.nextInt(i + 1);
+        char temp = passwordArray[i];
+        passwordArray[i] = passwordArray[j];
+        passwordArray[j] = temp;
+    }
+
+    String finalPassword = new String(passwordArray);
+    
+    // Validate the generated password meets requirements
+    if (!User.validatePassword(finalPassword)) {
+        // Recursively try again if requirements not met (extremely unlikely)
+        return generateSecurePassword();
+    }
+
+    return finalPassword;
+}
+
     public static boolean isPasswordCompromised(String password) {
         if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
@@ -94,6 +138,8 @@ public class Password {
             throw new RuntimeException("Failed to check password security", e);
         }
     }
+
+
 
 }
 
