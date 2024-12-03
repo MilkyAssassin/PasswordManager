@@ -3,7 +3,7 @@
     import type { Context } from "@my-types/types";
     import { setContext } from "svelte";
     import Hub from "./lib/Hub.svelte";
-    import GetAuthed from "./lib/GetAuthed.svelte";
+    import GetAuthed from "./lib/components/Authenticate/GetAuthed.svelte";
 
     let context: Context = $state({
         isLoading: true,
@@ -17,7 +17,11 @@
         context.isLoading = false;
         if (user != null) {
             context.user = user;
-            context.isAuthed = true;
+            console.log("TO be able to login replace context.isAuthed with true")
+            console.error("TO be able to login replace context.isAuthed with true")
+            console.error("TO be able to login replace context.isAuthed with true")
+            console.log("TO be able to login replace context.isAuthed with true")
+            context.isAuthed = false;
         } else {
             context.user = null;
             context.isAuthed = false;
