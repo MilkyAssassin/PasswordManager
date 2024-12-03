@@ -3,6 +3,7 @@
     import type { Context } from "@my-types/types";
     import { setContext } from "svelte";
     import Hub from "./lib/Hub.svelte";
+    import GetAuthed from "./lib/GetAuthed.svelte";
 
     let context: Context = $state({
         isLoading: true,
@@ -33,7 +34,7 @@
     {#if context.isAuthed}
         <Hub />
     {:else}
-        Not authed
+        <GetAuthed />
     {/if}
 {:else}
     Loading...

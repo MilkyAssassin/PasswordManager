@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { User, Entry } from "@my-types/types";
-const API_URL = "";
+const API_URL = "https://pokeapi.co/api/v2/pokemon/ditto";
 const LOGIN_ENDPOINT = API_URL + "";
 const LOGIN_METHOD = "";
 const REGISTER_ENDPOINT = API_URL + "";
@@ -11,6 +11,8 @@ const EDIT_ENDPOINT = API_URL + "";
 const EDIT_METHOD = "";
 const ADD_ENDPOINT = API_URL + "";
 const ADD_METHOD = "";
+const USER_ENDPOINT = API_URL + "";
+const USER_METHOD = "GET";
 
 export async function login(body: {
     username: string;
@@ -64,27 +66,23 @@ export async function register(body: { username: string; password: string }) {
     }
 }
 
-export async function fetchUser(): Promise<User|null> {
-    // try {
-    //     const res = await fetch(REGISTER_ENDPOINT, {
-    //         method: REGISTER_METHOD,
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //     });
-    //     if (res.ok) {
-    //         const data = await res.json();
-    //         return data;
-    //     }
-    // } finally {
-    //     return null;
-    // }
-
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(fakeFetchUser()); // Simulate successful response
-        }, 1000);
-    });
+export async function fetchUser(): Promise<User | null> {
+    try {
+        const res = await fetch(USER_ENDPOINT, {
+            method: USER_METHOD,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        if (res.ok) {
+            const data = await res.json();
+            return data;
+        }
+    } finally {
+        return API_URL == "https://pokeapi.co/api/v2/pokemon/ditto"
+            ? fakeFetchUser()
+            : null;
+    }
 }
 
 export async function deletePassword(body: { passwordId: number }) {
