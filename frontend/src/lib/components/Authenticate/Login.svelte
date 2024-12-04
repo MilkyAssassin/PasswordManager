@@ -1,30 +1,34 @@
 <script lang="ts">
-    import { fetchUser, login } from "@/lib/fetchData.svelte";
     import tippy from "tippy.js";
+
     let username = $state("");
     let password = $state("");
     let showPassword = $state(false);
 
+    let {
+        submit,
+    }: {
+        submit: (
+            e: SubmitEvent & {
+                currentTarget: EventTarget & HTMLFormElement;
+            },
+            username: string,
+            password: string,
+            email: string
+        ) => Promise<void>;
+    } = $props();
+
     function tooltip(node: Element, fn: () => {}) {
         $effect(() => {
             const tooltip = tippy(node, fn());
-
             return tooltip.destroy;
         });
     }
-
 </script>
 
 <form
-    onsubmit={async (e) => {
-        e.preventDefault();
-        let loginAttempt = await login({
-            username: $state.snapshot(username),
-            password: $state.snapshot(password),
-        });
-        if (loginAttempt){
-// trying to decided what to do here and how I can cause UpdateUser to run
-        }
+    onsubmit={(e) => {
+        submit(e, username, password, "");
     }}
 >
     <div>

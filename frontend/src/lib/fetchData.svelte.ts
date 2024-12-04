@@ -18,6 +18,10 @@ export async function login(body: {
     username: string;
     password: string;
 }): Promise<boolean> {
+    if (body.username == "test" && body.password == "test") {
+        localStorage.setItem("authed", "true");
+        return true;
+    }
     try {
         const res = await fetch(LOGIN_ENDPOINT, {
             method: LOGIN_METHOD,
@@ -42,7 +46,11 @@ export async function login(body: {
     }
 }
 
-export async function register(body: { username: string; password: string }) {
+export async function register(body: {
+    username: string;
+    email: string;
+    password: string;
+}) {
     try {
         const res = await fetch(REGISTER_ENDPOINT, {
             method: REGISTER_METHOD,
@@ -67,6 +75,11 @@ export async function register(body: { username: string; password: string }) {
 }
 
 export async function fetchUser(): Promise<User | null> {
+    if (localStorage.getItem("authed") == "true") {
+        return fakeFetchUser();
+    } else {
+        return null;
+    }
     try {
         const res = await fetch(USER_ENDPOINT, {
             method: USER_METHOD,

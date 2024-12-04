@@ -1,10 +1,24 @@
 <script lang="ts">
     import tippy from "tippy.js";
+    
     let username = $state("");
     let password = $state("");
     let showPassword = $state(false);
     let confirmPassword = $state("");
     let showConfirmPassword = $state(false);
+
+    let {
+        submit,
+    }: {
+        submit: (
+            e: SubmitEvent & {
+                currentTarget: EventTarget & HTMLFormElement;
+            },
+            username: string,
+            password: string,
+            email: string
+        ) => Promise<void>;
+    } = $props();
 
     function tooltip(node: Element, fn: () => {}) {
         $effect(() => {
@@ -17,8 +31,7 @@
 
 <form
     onsubmit={(e) => {
-        e.preventDefault();
-        alert("submit register");
+        submit(e, username, password, "");
     }}
 >
     <div>
@@ -109,5 +122,9 @@
             </button>
         </div>
     </div>
-    <input class="mx-auto block mt-2 border-4 cursor-pointer border-[#625282] p-4 rounded" type="submit" value="Register">
+    <input
+        class="mx-auto block mt-2 border-4 cursor-pointer border-[#625282] p-4 rounded"
+        type="submit"
+        value="Register"
+    />
 </form>

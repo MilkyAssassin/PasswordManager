@@ -4,6 +4,7 @@
     import { setContext } from "svelte";
     import Hub from "./lib/Hub.svelte";
     import GetAuthed from "./lib/components/Authenticate/GetAuthed.svelte";
+    import Toast from "./lib/components/Toast/Toast.svelte";
 
     let context: Context = $state({
         isLoading: true,
@@ -21,7 +22,7 @@
             console.error("TO be able to login replace context.isAuthed with true")
             console.error("TO be able to login replace context.isAuthed with true")
             console.log("TO be able to login replace context.isAuthed with true")
-            context.isAuthed = false;
+            context.isAuthed = true;
         } else {
             context.user = null;
             context.isAuthed = false;
@@ -34,6 +35,7 @@
 
 </script>
 
+<Toast />
 {#if !context.isLoading}
     {#if context.isAuthed}
         <Hub />
