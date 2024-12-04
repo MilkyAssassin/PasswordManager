@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-public class TestController {
+public class Test {
 
     @GetMapping("/test")
     public ResponseEntity<String> testEndpoint() {

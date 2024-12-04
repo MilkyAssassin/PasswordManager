@@ -1,19 +1,17 @@
 
-package com.example.backend.controller;
+package main.java.com.example.backend.controller;
 
-import com.example.backend.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import com.example.backend.model.UserRegistrationRequest;
-import com.example.backend.model.ApiResponse;
-import com.example.backend.User;
-import com.example.backend.DatabaseConnection;
+import main.java.com.example.backend.DatabaseConnection;
+import main.java.com.example.backend.User;
+import main.java.com.example.backend.dto.ApiResponse;
+import main.java.com.example.backend.dto.UserLoginRequest;
+import main.java.com.example.backend.dto.UserRegistrationRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8080"})
 public class UserController {
 
     @PostMapping("/register")
