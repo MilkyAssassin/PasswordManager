@@ -4,7 +4,6 @@
     import SoloEntry from "../SoloEntry.svelte";
     import tippy from "tippy.js";
     import { notifications } from "../Toast/notifications.svelte";
-    import Toast from "../Toast/Toast.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -57,7 +56,6 @@
     let selectedEntry: Entry | null = $state(null);    
 </script>
 
-<Toast />
 <div>
     {#if context.isLoading}
         Loading...
