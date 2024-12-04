@@ -1,4 +1,4 @@
-package main.java.com.example.backend;
+package main.java.com.example.backend.controller;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,10 +16,20 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import main.java.com.example.backend.AuthResponse;
+import main.java.com.example.backend.JWTService;
+import main.java.com.example.backend.Password;
+import main.java.com.example.backend.PasswordManager;
+import main.java.com.example.backend.RegisterRequest;
+import main.java.com.example.backend.User;
+import main.java.com.example.backend.UserResponse;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/auth")
 public class AuthController {
+
+
     
     @Autowired
     private Connection connection;

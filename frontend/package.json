@@ -23,6 +23,7 @@
     "vite": "^6.0.1"
   },
   "dependencies": {
+    "password-manager": "file:",
     "tippy.js": "^6.3.7"
   }
 }
