@@ -1,6 +1,8 @@
-package Test;
+package test;
 
-import backend.TimeBasedOneTimePasswordUtil;
+
+
+import main.java.com.example.backend.TimeBasedOneTimePasswordUtil;
 
 /**
  * Little test program to show how to use the TwoFactorAuthUtil utility class.

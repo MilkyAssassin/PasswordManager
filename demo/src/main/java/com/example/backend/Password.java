@@ -1,4 +1,4 @@
-package backend;
+package main.java.com.example.backend;
 
 import java.security.SecureRandom;
 
@@ -142,6 +142,9 @@ public class Password {
 
 
 }
+
+
+
 
 
 

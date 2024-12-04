@@ -1,4 +1,4 @@
-package backend;
+package main.java.com.example.backend;
 
 public enum CheckPasswordErrorCode {
 	BadConfiguration, //Something needs to be fixed on our end (TLS/SHA support, bad URL, etc.)

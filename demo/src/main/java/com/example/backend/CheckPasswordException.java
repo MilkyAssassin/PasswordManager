@@ -1,4 +1,6 @@
-package backend;
+package main.java.com.example.backend;
+
+
 
 public class CheckPasswordException extends Exception {
 

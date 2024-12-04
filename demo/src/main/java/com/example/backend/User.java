@@ -1,10 +1,12 @@
-package backend;
+package main.java.com.example.backend;
 
 import java.sql.*;
 import java.util.Scanner;
 
-import javax.crypto.*;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+
 
 
 public class User {
@@ -21,6 +23,13 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(int userId) {
+        User.userId = userId;
+        this.username = null;
+        this.email = null;
+        this.password = null;
     }
 
     // Getters

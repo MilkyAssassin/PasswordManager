@@ -1,13 +1,15 @@
-package Test;
+package test;
+
+
 
 import java.sql.*;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
-import backend.DatabaseConnection;
-import backend.Password;
-import backend.PasswordManager;
-import backend.User;
+import main.java.com.example.backend.DatabaseConnection;
+import main.java.com.example.backend.Password;
+import main.java.com.example.backend.PasswordManager;
+import main.java.com.example.backend.User;
 
 
 public class Test {

@@ -1,4 +1,8 @@
-package backend;
+package main.java.com.example.backend;
+
+
+
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
+
 
 public class PasswordManager {
 
@@ -66,7 +71,6 @@ public class PasswordManager {
             }
         }
     }
-    
     
     //Shows all passwords for the User
     public static void showAllPasswords(Connection connection, User user) {
@@ -295,6 +299,7 @@ public class PasswordManager {
         }
     }
 
+    //Lists compromised passwords
     public static void listCompromisedPasswords(Connection connection, User user) {
         String query = "SELECT Website, EncryptedPassword FROM Passwords WHERE UserID = ?";
         boolean foundCompromised = false;
@@ -340,4 +345,44 @@ public class PasswordManager {
         }
     }
 
+
+    public static List<Password> getAllPasswords(Connection connection, User user) throws SQLException {
+        List<Password> passwords = new ArrayList<>();
+        String query = "SELECT Website, Username, EncryptedPassword, SecurityQuestion FROM Passwords WHERE UserID = ?";
+        
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, user.getUserId());
+            ResultSet resultSet = statement.executeQuery();
+    
+            SecretKey secretKey = User.retrieveSecretKey(connection, user.getUserId());
+            if (secretKey == null) {
+                throw new SQLException("Secret key not found for user");
+            }
+    
+            while (resultSet.next()) {
+                try {
+                    String website = resultSet.getString("Website");
+                    String username = resultSet.getString("Username");
+                    String encryptedPassword = resultSet.getString("EncryptedPassword");
+                    String securityQuestion = resultSet.getString("SecurityQuestion");
+                    
+                    Password password = new Password(
+                        user.getUserId(),
+                        website,
+                        username,
+                        Encryption.decrypt(encryptedPassword, secretKey),
+                        securityQuestion,
+                        secretKey
+                    );
+                    passwords.add(password);
+                } catch (Exception e) {
+                    throw new SQLException("Error processing password: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            throw new SQLException("Error retrieving passwords: " + e.getMessage());
+        }
+        
+        return passwords;
+    }
 }

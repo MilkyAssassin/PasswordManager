@@ -1,4 +1,6 @@
-package backend;
+package main.java.com.example.backend;
+
+
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
