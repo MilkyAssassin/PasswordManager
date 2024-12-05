@@ -82,7 +82,7 @@
                         <div
                             class="rounded-full bg-[#d8cbea] text-[#625282] h-7 w-7 text-center align-middle leading-7"
                         >
-                            {entry.username[0]}
+                            {entry.username[0]||"U"}
                         </div>
                         {entry.title}
                     </div>
