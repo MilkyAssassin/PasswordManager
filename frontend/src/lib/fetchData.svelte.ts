@@ -63,8 +63,7 @@ export async function register(body: {
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
-            returnValue = true;
-            login({ username: body.username, password: body.password });
+            returnValue = await login({ username: body.username, password: body.password });
         }
     } catch {
         returnValue = false;
