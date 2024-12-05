@@ -197,6 +197,7 @@ export async function editPassword(
     }
 
 
+
     try {
         const res = await fetch(
             "http://localhost:8080/passwords/edit/" + oldWebsite,
@@ -205,7 +206,7 @@ export async function editPassword(
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({...body, id}),
+                body: JSON.stringify({...body, userId: id}),
             }
         );
         if (res.ok) {
