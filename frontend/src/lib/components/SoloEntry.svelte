@@ -9,7 +9,7 @@
         selectedEntry: Entry;
         close: (isChanged: boolean) => any;
         delete_entry?: ((entry: Entry) => any) | undefined;
-        save: (entry: Entry) => any;
+        save: (entry: Entry, oldWebsite: string) => any;
     };
     let {
         selectedEntry = $bindable(),
@@ -180,7 +180,7 @@
                         2000
                     );
                 } else {
-                    save(entry);
+                    save(entry, selectedEntry.url);
                 }
             }}>Save</button
         >

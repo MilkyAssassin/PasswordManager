@@ -51,7 +51,7 @@
             )
                 createNewEntry = false;
         }}
-        save={async (entry: Entry) => {
+        save={async (entry: Entry, oldWebsite: string) => {
             if (await addPassword(entry)) {
                 window.location.reload();
             } else {

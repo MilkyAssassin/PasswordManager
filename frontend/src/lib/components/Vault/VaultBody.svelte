@@ -132,8 +132,8 @@
                     notifications.danger("An unexpected error happened", 2000);
                 }
             }}
-            save={async (entry: Entry) => {
-                if (await editPassword(entry)) {
+            save={async (entry: Entry, oldWebsite: string) => {
+                if (await editPassword(entry, oldWebsite)) {
                     window.location.reload();
                 } else {
                     notifications.danger("An unexpected error happened", 2000);

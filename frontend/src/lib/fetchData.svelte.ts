@@ -193,15 +193,32 @@ export async function addPassword(body: Entry): Promise<boolean> {
     }
 }
 
-export async function editPassword(body: Entry): Promise<boolean> {
+export async function editPassword(
+    body: Entry,
+    oldWebsite: string
+): Promise<boolean> {
     let returnValue = false;
+    const id = localStorage.getItem("id");
+    if (id === undefined) {
+        return false;
+    }
+    let newBody = {
+        userId: id, 
+
+        website: oldWebsite,
+        newWebsite: body.url,
+        username: body.username,
+        password: body.password,
+        newSecurityQuestion: body.notes,
+    };
+
     try {
         const res = await fetch(EDIT_ENDPOINT, {
             method: EDIT_METHOD,
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(newBody),
         });
         if (res.ok) {
             const data = await res.json();
