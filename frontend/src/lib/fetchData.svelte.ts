@@ -171,7 +171,7 @@ export async function addPassword(body: Entry): Promise<boolean> {
         newSecurityQuestion: body.notes,
     };
     try {
-        const res = await fetch("localhost:8080/passwords/add", {
+        const res = await fetch("http://localhost:8080/passwords/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
