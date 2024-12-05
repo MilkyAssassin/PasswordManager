@@ -99,6 +99,7 @@ export async function fetchUser(): Promise<User | null> {
                 username: "",
                 vault: [],
             };
+            console.log("data");
             console.log(data);
             data.forEach(
                 (e: {
@@ -107,6 +108,7 @@ export async function fetchUser(): Promise<User | null> {
                     website: string;
                     securityQuestion: string;
                 }) => {
+                    console.log("Entry");
                     console.log({
                         id: (e.userID | -1) as number,
                         password: e.plainPassword as string,
@@ -128,6 +130,7 @@ export async function fetchUser(): Promise<User | null> {
                     } as Entry);
                 }
             );
+            console.log("user");
             console.log(user);
             returnValue = user;
         }
