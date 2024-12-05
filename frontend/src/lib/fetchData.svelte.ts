@@ -101,8 +101,8 @@ export async function fetchUser(): Promise<User | null> {
                 username: uname,
                 vault: [],
             };
-            // console.log("data");
-            // console.log(data);
+            console.log("data");
+            console.log(data);
             data.forEach(
                 (e: {
                     userID: number;
@@ -110,16 +110,16 @@ export async function fetchUser(): Promise<User | null> {
                     website: string;
                     securityQuestion: string;
                 }) => {
-                    // console.log("Entry");
-                    // console.log({
-                    //     id: (e.userID | -1) as number,
-                    //     password: e.plainPassword as string,
-                    //     url: e.website as string,
-                    //     notes: e.securityQuestion as string,
-                    //     title: "Test",
-                    //     dateCreated: new Date(Date.now()),
-                    //     lastUsed: new Date(Date.now()),
-                    // });
+                    console.log("Entry");
+                    console.log({
+                        id: (e.userID | -1) as number,
+                        password: e.plainPassword as string,
+                        url: e.website as string,
+                        notes: e.securityQuestion as string,
+                        title: "Test",
+                        dateCreated: new Date(Date.now()),
+                        lastUsed: new Date(Date.now()),
+                    });
 
                     user.vault.push({
                         id: (e.userID | -1) as number,
@@ -132,8 +132,8 @@ export async function fetchUser(): Promise<User | null> {
                     } as Entry);
                 }
             );
-            // console.log("user");
-            // console.log(user);
+            console.log("user");
+            console.log(user);
             returnValue = user;
         }
     } catch {
