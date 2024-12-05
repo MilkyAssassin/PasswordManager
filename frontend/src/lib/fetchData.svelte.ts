@@ -33,7 +33,6 @@ export async function login(body: {
         });
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
@@ -121,8 +120,6 @@ export async function fetchUser(): Promise<User | null> {
                     } as Entry);
                 }
             );
-            console.log("user");
-            console.log(user);
             returnValue = user;
         }
     } catch {
@@ -206,24 +203,27 @@ export async function editPassword(
     if (id === undefined) {
         return false;
     }
-    let newBody = {
-        userId: id,
+    // let newBody = {
+    //     userId: id,
 
-        website: oldWebsite,
-        newWebsite: body.url,
-        username: body.username,
-        password: body.password,
-        newSecurityQuestion: body.notes,
-    };
+    //     website: oldWebsite,
+    //     newWebsite: body.url,
+    //     username: body.username,
+    //     password: body.password,
+    //     newSecurityQuestion: body.notes,
+    // };
 
     try {
-        const res = await fetch(EDIT_ENDPOINT, {
-            method: EDIT_METHOD,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newBody),
-        });
+        const res = await fetch(
+            "http://localhost:8080/passwords/edit/" + id + "/" + oldWebsite,
+            {
+                method: EDIT_METHOD,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            }
+        );
         if (res.ok) {
             const data = await res.json();
             console.log("Get cookie from fetch");
