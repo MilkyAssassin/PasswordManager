@@ -87,7 +87,7 @@ export async function fetchUser(): Promise<User | null> {
         if (id == null) {
             return null;
         }
-        const res = await fetch("http://localhost/passwords/user/" + id, {
+        const res = await fetch("http://localhost:8080/passwords/user/" + id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -95,22 +95,29 @@ export async function fetchUser(): Promise<User | null> {
         });
         if (res.ok) {
             const data = await res.json();
-            const user:User = {
+            const user: User = {
                 username: "",
-                vault: []
-            }
-            data.forEach((e: { userID: number; plainPassword: string; website: string; securityQuestion: string; })=>{
-                user.vault.push({
-                    id: e.userID as number,
-                    password: e.plainPassword as string,
-                    url: e.website as string,
-                    notes: e.securityQuestion as string,
-                    title: "Test",
-                    dateCreated: new Date(Date.now()),
-                    lastUsed: new Date(Date.now())
-                } as Entry)
-            })
-            
+                vault: [],
+            };
+            data.forEach(
+                (e: {
+                    userID: number;
+                    plainPassword: string;
+                    website: string;
+                    securityQuestion: string;
+                }) => {
+                    user.vault.push({
+                        id: e.userID as number,
+                        password: e.plainPassword as string,
+                        url: e.website as string,
+                        notes: e.securityQuestion as string,
+                        title: "Test",
+                        dateCreated: new Date(Date.now()),
+                        lastUsed: new Date(Date.now()),
+                    } as Entry);
+                }
+            );
+
             returnValue = user;
         }
     } catch {
