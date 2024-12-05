@@ -4,8 +4,6 @@ import type { User, Entry } from "@my-types/types";
 const API_URL = "http://localhost:8080";
 const LOGIN_ENDPOINT = API_URL + "/login";
 const LOGIN_METHOD = "POST";
-const REGISTER_ENDPOINT = API_URL + "/register";
-const REGISTER_METHOD = "POST";
 const DELETE_ENDPOINT = API_URL + "";
 const DELETE_METHOD = "";
 const EDIT_ENDPOINT = API_URL + "";
@@ -33,9 +31,10 @@ export async function login(body: {
         });
         if (res.ok) {
             const data = await res.json();
-            console.log(data)
-            localStorage.setItem("data", JSON.stringify(data))
+            console.log(data);
+            localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
+            localStorage.setItem("id", data.id);
             return true;
         }
     } finally {
@@ -44,8 +43,9 @@ export async function login(body: {
 }
 
 export async function logout() {
-    localStorage.removeItem("data")
+    localStorage.removeItem("data");
     localStorage.removeItem("authed");
+    localStorage.removeItem("id");
 }
 
 export async function register(body: {
@@ -61,42 +61,40 @@ export async function register(body: {
             },
             body: JSON.stringify(body),
         });
-        console.log("INE")
+        console.log("INE");
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
+            localStorage.setItem("data", JSON.stringify(data));
+            localStorage.setItem("authed", "true");
+            localStorage.setItem("id", data.id);
             return true;
         }
-    } catch (e) {
-        console.log(e.message);
+    } finally {
         return false;
     }
 }
 
 export async function fetchUser(): Promise<User | null> {
-    if (localStorage.getItem("authed") == "true") {
-        return fakeFetchUser();
-    } else {
-        return null;
-    }
     try {
-        const res = await fetch(USER_ENDPOINT, {
-            method: USER_METHOD,
+        const id = localStorage.getItem("id");
+        if (id == null) {
+            return null;
+        }
+        const res = await fetch("http://localhost/passwords/user/" + id, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
         });
         if (res.ok) {
             const data = await res.json();
-            return data;
+            console.log(data);
+            alert(JSON.stringify(data));
+
+            // return data;
         }
     } finally {
-        return API_URL == "https://pokeapi.co/api/v2/pokemon/ditto"
-            ? fakeFetchUser()
-            : null;
+        return null;
     }
 }
 
