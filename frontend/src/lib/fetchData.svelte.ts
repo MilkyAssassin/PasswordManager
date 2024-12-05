@@ -37,6 +37,7 @@ export async function login(body: {
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
+            localStorage.setItem("uname", data.username||"Unknown");
             return true;
         }
     } catch {
@@ -84,7 +85,8 @@ export async function fetchUser(): Promise<User | null> {
     let returnValue = null;
     try {
         const id = localStorage.getItem("id");
-        if (id == null) {
+        const uname = localStorage.getItem("uname");
+        if (id == null || uname == null) {
             return null;
         }
         const res = await fetch("http://localhost:8080/passwords/user/" + id, {
@@ -96,11 +98,11 @@ export async function fetchUser(): Promise<User | null> {
         if (res.ok) {
             const data = await res.json();
             const user: User = {
-                username: "",
+                username: uname,
                 vault: [],
             };
-            console.log("data");
-            console.log(data);
+            // console.log("data");
+            // console.log(data);
             data.forEach(
                 (e: {
                     userID: number;
@@ -108,16 +110,16 @@ export async function fetchUser(): Promise<User | null> {
                     website: string;
                     securityQuestion: string;
                 }) => {
-                    console.log("Entry");
-                    console.log({
-                        id: (e.userID | -1) as number,
-                        password: e.plainPassword as string,
-                        url: e.website as string,
-                        notes: e.securityQuestion as string,
-                        title: "Test",
-                        dateCreated: new Date(Date.now()),
-                        lastUsed: new Date(Date.now()),
-                    });
+                    // console.log("Entry");
+                    // console.log({
+                    //     id: (e.userID | -1) as number,
+                    //     password: e.plainPassword as string,
+                    //     url: e.website as string,
+                    //     notes: e.securityQuestion as string,
+                    //     title: "Test",
+                    //     dateCreated: new Date(Date.now()),
+                    //     lastUsed: new Date(Date.now()),
+                    // });
 
                     user.vault.push({
                         id: (e.userID | -1) as number,
@@ -130,8 +132,8 @@ export async function fetchUser(): Promise<User | null> {
                     } as Entry);
                 }
             );
-            console.log("user");
-            console.log(user);
+            // console.log("user");
+            // console.log(user);
             returnValue = user;
         }
     } catch {
