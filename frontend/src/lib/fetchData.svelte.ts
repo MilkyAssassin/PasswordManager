@@ -99,6 +99,7 @@ export async function fetchUser(): Promise<User | null> {
                 username: "",
                 vault: [],
             };
+            console.log(data);
             data.forEach(
                 (e: {
                     userID: number;
@@ -121,13 +122,13 @@ export async function fetchUser(): Promise<User | null> {
                         password: e.plainPassword as string,
                         url: e.website as string,
                         notes: e.securityQuestion as string,
-                        title: "Test",
+                        title: e.website,
                         dateCreated: new Date(Date.now()),
                         lastUsed: new Date(Date.now()),
                     } as Entry);
                 }
             );
-
+            console.log(user);
             returnValue = user;
         }
     } catch {
