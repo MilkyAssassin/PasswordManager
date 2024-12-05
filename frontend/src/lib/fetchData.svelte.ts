@@ -215,7 +215,7 @@ export async function editPassword(
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({...body, userId: id}),
+                body: JSON.stringify(newBody),
             }
         );
         if (res.ok) {
