@@ -217,7 +217,7 @@ export async function editPassword(
         const res = await fetch(
             "http://localhost:8080/passwords/edit/" + id + "/" + oldWebsite,
             {
-                method: EDIT_METHOD,
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
