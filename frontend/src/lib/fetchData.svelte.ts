@@ -5,14 +5,6 @@ import type { forEach } from "lodash";
 const API_URL = "http://localhost:8080";
 const LOGIN_ENDPOINT = API_URL + "/login";
 const LOGIN_METHOD = "POST";
-const DELETE_ENDPOINT = API_URL + "";
-const DELETE_METHOD = "";
-const EDIT_ENDPOINT = API_URL + "";
-const EDIT_METHOD = "";
-const ADD_ENDPOINT = API_URL + "";
-const ADD_METHOD = "";
-const USER_ENDPOINT = API_URL + "";
-const USER_METHOD = "GET";
 
 export async function login(body: {
     username: string;
@@ -203,25 +195,17 @@ export async function editPassword(
     if (id === undefined) {
         return false;
     }
-    // let newBody = {
-    //     userId: id,
 
-    //     website: oldWebsite,
-    //     newWebsite: body.url,
-    //     username: body.username,
-    //     password: body.password,
-    //     newSecurityQuestion: body.notes,
-    // };
 
     try {
         const res = await fetch(
-            "http://localhost:8080/passwords/edit/" + id + "/" + oldWebsite,
+            "http://localhost:8080/passwords/edit/" + oldWebsite,
             {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(body),
+                body: JSON.stringify({...body, id}),
             }
         );
         if (res.ok) {
