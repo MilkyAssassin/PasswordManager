@@ -133,25 +133,29 @@ export async function fetchUser(): Promise<User | null> {
 }
 
 export async function deletePassword(body: {
-    passwordId: number;
+    passwordUrl: string;
 }): Promise<boolean> {
     let returnValue = false;
+    const id = localStorage.getItem("id");
+    if (id === undefined) {
+        return false;
+    }
+
     try {
-        const res = await fetch(DELETE_ENDPOINT, {
-            method: DELETE_METHOD,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body),
-        });
+        const res = await fetch(
+            "http://localhost:8080/passwords/delete/" +
+                id +
+                "/" +
+                body.passwordUrl,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         if (res.ok) {
             const data = await res.json();
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
             returnValue = true;
         }
     } catch {
@@ -203,7 +207,7 @@ export async function editPassword(
         return false;
     }
     let newBody = {
-        userId: id, 
+        userId: id,
 
         website: oldWebsite,
         newWebsite: body.url,

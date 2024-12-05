@@ -126,7 +126,7 @@
                     selectedEntry = null;
             }}
             delete_entry={async (entry: Entry) => {
-                if (await deletePassword({ passwordId: entry.id })) {
+                if (await deletePassword({ passwordUrl: entry.url })) {
                     window.location.reload();
                 } else {
                     notifications.danger("An unexpected error happened", 2000);
