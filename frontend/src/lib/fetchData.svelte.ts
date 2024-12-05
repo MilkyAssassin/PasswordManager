@@ -21,6 +21,7 @@ export async function login(body: {
         localStorage.setItem("authed", "true");
         return true;
     }
+    let returnValue = false;
     try {
         const res = await fetch(LOGIN_ENDPOINT, {
             method: LOGIN_METHOD,
@@ -37,8 +38,10 @@ export async function login(body: {
             localStorage.setItem("id", data.id);
             return true;
         }
+    } catch {
+        returnValue = false;
     } finally {
-        return false;
+        return returnValue;
     }
 }
 
@@ -53,6 +56,7 @@ export async function register(body: {
     email: string;
     password: string;
 }): Promise<boolean> {
+    let returnValue = false;
     try {
         const res = await fetch("http://localhost:8080/register", {
             method: "POST",
@@ -67,14 +71,17 @@ export async function register(body: {
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.id);
-            return true;
+            returnValue = true;
         }
+    } catch {
+        returnValue = false;
     } finally {
-        return false;
+        return returnValue;
     }
 }
 
 export async function fetchUser(): Promise<User | null> {
+    let returnValue = null;
     try {
         const id = localStorage.getItem("id");
         if (id == null) {
@@ -90,17 +97,19 @@ export async function fetchUser(): Promise<User | null> {
             const data = await res.json();
             console.log(data);
             alert(JSON.stringify(data));
-
-            // return data;
+            returnValue = data;
         }
+    } catch {
+        returnValue = null;
     } finally {
-        return null;
+        return returnValue;
     }
 }
 
 export async function deletePassword(body: {
     passwordId: number;
 }): Promise<boolean> {
+    let returnValue = false;
     try {
         const res = await fetch(DELETE_ENDPOINT, {
             method: DELETE_METHOD,
@@ -117,14 +126,17 @@ export async function deletePassword(body: {
             console.error("Get cookie from fetch");
             console.log("Get cookie from fetch");
             console.error("Get cookie from fetch");
-            return true;
+            returnValue = true;
         }
+    } catch {
+        returnValue = false;
     } finally {
-        return false;
+        return returnValue;
     }
 }
 
 export async function addPassword(body: Entry): Promise<boolean> {
+    let returnValue = false;
     try {
         const res = await fetch(ADD_ENDPOINT, {
             method: ADD_METHOD,
@@ -141,10 +153,12 @@ export async function addPassword(body: Entry): Promise<boolean> {
             console.error("Get cookie from fetch");
             console.log("Get cookie from fetch");
             console.error("Get cookie from fetch");
-            return true;
+            returnValue = true;
         }
+    } catch {
+        returnValue = false;
     } finally {
-        return false;
+        return returnValue;
     }
 }
 
