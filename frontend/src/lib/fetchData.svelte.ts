@@ -37,7 +37,7 @@ export async function login(body: {
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
-            localStorage.setItem("uname", data.username||"Unknown");
+            localStorage.setItem("uname", data.username || "Unknown");
             return true;
         }
     } catch {
@@ -101,29 +101,18 @@ export async function fetchUser(): Promise<User | null> {
                 username: uname,
                 vault: [],
             };
-            console.log("data");
-            console.log(data);
             data.forEach(
                 (e: {
                     userID: number;
+                    username: string;
                     plainPassword: string;
                     website: string;
                     securityQuestion: string;
                 }) => {
-                    console.log("Entry");
-                    console.log({
-                        id: (e.userID | -1) as number,
-                        password: e.plainPassword as string,
-                        url: e.website as string,
-                        notes: e.securityQuestion as string,
-                        title: "Test",
-                        dateCreated: new Date(Date.now()),
-                        lastUsed: new Date(Date.now()),
-                    });
-
                     user.vault.push({
                         id: (e.userID | -1) as number,
                         password: e.plainPassword as string,
+                        username: e.username as string,
                         url: e.website as string,
                         notes: e.securityQuestion as string,
                         title: e.website,

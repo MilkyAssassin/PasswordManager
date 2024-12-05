@@ -85,7 +85,7 @@
                         >
                             {entry.username && entry.username.length > 0
                                 ? entry.username[0]
-                                : "U"}
+                                : "-"}
                         </div>
                         {entry.title}
                     </div>
