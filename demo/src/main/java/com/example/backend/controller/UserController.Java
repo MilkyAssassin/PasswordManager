@@ -1,4 +1,3 @@
-
 package main.java.com.example.backend.controller;
 
 import main.java.com.example.backend.DatabaseConnection;
@@ -11,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@CrossOrigin(origins = "*", allowedHeaders = "*") // Allow all origins and headers
 public class UserController {
 
     @PostMapping("/register")

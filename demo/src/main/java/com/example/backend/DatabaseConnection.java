@@ -1,12 +1,14 @@
 package main.java.com.example.backend;
 
+
+
 import java.sql.*;
 
 
 public class DatabaseConnection {
     private static final String url = "jdbc:sqlserver://database-1.cnqc6gewutb2.us-east-2.rds.amazonaws.com:1433;trustServerCertificate=true";
     private static final String user = "password_db";
-    private static final String password = "Nx5g6upxroVDi5C";
+    private static final String password = "Nx5g6upxroVDi5C"; 
 
     private static Connection connection = null;
 

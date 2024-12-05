@@ -1,7 +1,5 @@
 package main.java.com.example.backend;
 
-
-
 public class CheckPasswordException extends Exception {
 
 	private static final long serialVersionUID = 1920827738045331037L;

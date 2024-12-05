@@ -1,8 +1,9 @@
 package main.java.com.example.backend;
 
 import java.security.SecureRandom;
-
 import javax.crypto.SecretKey;
+
+
 
 public class Password {
     public String website;

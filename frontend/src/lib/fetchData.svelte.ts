@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { User, Entry } from "@my-types/types";
 // const API_URL = "https://pokeapi.co/api/v2/pokemon/ditto";
-const API_URL = "localhost:8080";
+const API_URL = "http://localhost:8080";
 const LOGIN_ENDPOINT = API_URL + "/login";
 const LOGIN_METHOD = "POST";
 const REGISTER_ENDPOINT = API_URL + "";
@@ -54,24 +54,24 @@ export async function register(body: {
     password: string;
 }): Promise<boolean> {
     try {
-        const res = await fetch(REGISTER_ENDPOINT, {
-            method: REGISTER_METHOD,
+        const res = await fetch("http://localhost:8080/register", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
         });
+        console.log("INE")
         if (res.ok) {
             const data = await res.json();
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
+            console.log(data);
             console.error("Get cookie from fetch");
             console.log("Get cookie from fetch");
             console.error("Get cookie from fetch");
             return true;
         }
-    } finally {
+    } catch (e) {
+        console.log(e.message);
         return false;
     }
 }
