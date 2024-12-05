@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { logout } from "../../fetchData.svelte";
+
     type sortType =
         | "AlphabeticalOrder"
         | "AlphabeticalOrderReverse"
@@ -88,11 +90,18 @@
                 "
             >
                 <div>A</div>
-                <div class="absolute left-1/2 -translate-x-1/2 p-5 bg-black">
-                    <div
-                        class="w-0 h-0 border-l-[50px] border-l-transparent border-b-[75px] border-b-yellow-500 border-r-[50px] border-r-transparent"
-                    ></div>
-                    <button>Logout</button>
+                <div class="absolute left-1/2 -translate-x-1/2">
+                    <div class="relative w-full h-full">
+                        <button
+                            class="relative top-[15px] p-2 bg-[#625282] text-white rounded hover:bg-[#d8cbea] hover:text-black transition-colors"
+                            onclick={() => {
+                                logout();
+                                window.location.reload();
+                            }}
+                        >
+                            Logout</button
+                        >
+                    </div>
                 </div>
             </div>
         </div>

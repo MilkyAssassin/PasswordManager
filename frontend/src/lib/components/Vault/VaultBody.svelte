@@ -4,6 +4,7 @@
     import SoloEntry from "../SoloEntry.svelte";
     import tippy from "tippy.js";
     import { notifications } from "../Toast/notifications.svelte";
+    import { deletePassword } from "../../fetchData.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -53,7 +54,7 @@
         });
     }
 
-    let selectedEntry: Entry | null = $state(null);    
+    let selectedEntry: Entry | null = $state(null);
 </script>
 
 <div>
@@ -112,8 +113,9 @@
     {#if selectedEntry !== null}
         <SoloEntry
             bind:selectedEntry
-            close={() => {
+            close={(isNotChanged: boolean) => {
                 if (
+                    isNotChanged ||
                     window.confirm(
                         "Are you sure you want to close without saving your entry?"
                     )
@@ -121,6 +123,7 @@
                     selectedEntry = null;
             }}
             delete_entry={(entry: Entry) => {
+                deletePassword({ passwordId: entry.id });
                 alert("Write del function");
             }}
             save={() => alert("Write save func")}

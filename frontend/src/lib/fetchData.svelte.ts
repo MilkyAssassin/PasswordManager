@@ -46,6 +46,10 @@ export async function login(body: {
     }
 }
 
+export async function logout(){
+    localStorage.removeItem("authed");
+}
+
 export async function register(body: {
     username: string;
     email: string;

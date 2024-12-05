@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Entry } from "@/types/types";
     import SoloEntry from "./SoloEntry.svelte";
+    import { addPassword } from "../fetchData.svelte";
 
     let createNewEntry = $state(false);
     let entry: Entry = $state({
@@ -13,7 +14,7 @@
         notes: "",
         lastUsed: new Date(),
     });
-    $inspect(entry)
+    $inspect(entry);
 </script>
 
 <div class="w-full bg-[#d9d9d9] h-full">
@@ -40,19 +41,17 @@
 {#if createNewEntry}
     <SoloEntry
         bind:selectedEntry={entry}
-        close={() => {
+        close={(isNotChanged: boolean) => {
             if (
+                isNotChanged ||
                 window.confirm(
                     "Are you sure you want to close without saving your entry?"
                 )
             )
                 createNewEntry = false;
         }}
-        save={(entry:Entry) => {
-            alert("Write save func");
-        }}
-        delete_entry={(entry:Entry) => {
-            alert("Write del funct");
+        save={(entry: Entry) => {
+            addPassword(entry)
         }}
     />
 {/if}

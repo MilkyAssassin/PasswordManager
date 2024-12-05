@@ -23,6 +23,8 @@
     "vite": "^6.0.1"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "password-manager": "file:",
     "tippy.js": "^6.3.7"
   }

@@ -1,18 +1,27 @@
 <script lang="ts">
     import { fly, fade } from "svelte/transition";
+    import _ from "lodash";
     import type { Entry } from "@my-types/types";
     import tippy from "tippy.js";
     import { notifications } from "./Toast/notifications.svelte";
 
     type props = {
         selectedEntry: Entry;
-        close: () => any;
-        delete_entry: (entry:Entry) => any;
-        save: (entry:Entry) => any;
+        close: (isChanged: boolean) => any;
+        delete_entry?: ((entry: Entry) => any) | undefined;
+        save: (entry: Entry) => any;
     };
-    let { selectedEntry = $bindable(), close, save, delete_entry }:props = $props();
+    let {
+        selectedEntry = $bindable(),
+        close,
+        save,
+        delete_entry = undefined,
+    }: props = $props();
     let entry = $state($state.snapshot(selectedEntry));
     let showPassword = $state(false);
+    let isSameEntry = $derived(
+        _.isEqual($state.snapshot(selectedEntry), $state.snapshot(entry))
+    );
 
     function tooltip(node: Element, fn: () => {}) {
         $effect(() => {
@@ -28,7 +37,7 @@
     transition:fly={{ y: 200, duration: 1000 }}
 >
     <div class="absolute right-0 top-0">
-        <button onclick={close}>
+        <button onclick={() => close(isSameEntry)}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -72,7 +81,7 @@
                     onclick={() => {
                         if (entry.password && entry.password != "")
                             navigator.clipboard.writeText(entry.password);
-                            notifications.success("Password Copied!!!", 1000);
+                        notifications.success("Password Copied!!!", 1000);
                     }}
                     use:tooltip={() => ({ content: "Copy Password" })}
                 >
@@ -153,11 +162,27 @@
     </div>
     <div class="h-5"></div>
     <div class="flex gap-6">
-        <button class="w-full h-10 bg-gray-600 rounded-lg text-red-600" onclick={()=>delete_entry(entry)}
-            >Delete</button
-        >
-        <button class="w-full h-10 bg-[#844b8c] rounded-lg" onclick={()=>save(entry)}
-            >Save</button
+        {#if delete_entry !== undefined}
+            <button
+                class="w-full h-10 bg-gray-600 rounded-lg text-red-600"
+                onclick={() => delete_entry(entry)}>Delete</button
+            >
+        {/if}
+        <button
+            class={"w-full h-10  rounded-lg " +
+                (isSameEntry
+                    ? "!cursor-not-allowed text-gray-600 bg-[#d8cbea]"
+                    : "bg-[#844b8c]")}
+            onclick={() => {
+                if (isSameEntry) {
+                    notifications.warning(
+                        "You have not updated any fields",
+                        2000
+                    );
+                } else {
+                    save(entry);
+                }
+            }}>Save</button
         >
     </div>
 </div>
@@ -165,7 +190,7 @@
 <button
     class="fixed left-0 right-0 bottom-0 top-0 bg-black opacity-80"
     aria-label="Close opened modal"
-    onclick={close}
+    onclick={() => close(isSameEntry)}
     transition:fade={{ duration: 1000 }}
 >
 </button>
