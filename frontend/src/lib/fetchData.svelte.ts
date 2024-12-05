@@ -111,7 +111,7 @@ export async function fetchUser(): Promise<User | null> {
                 } as Entry)
             })
             
-            returnValue = data;
+            returnValue = user;
         }
     } catch {
         returnValue = null;
