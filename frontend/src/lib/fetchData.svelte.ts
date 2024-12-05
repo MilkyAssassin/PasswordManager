@@ -35,7 +35,7 @@ export async function login(body: {
             console.log(data);
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
-            localStorage.setItem("id", data.id);
+            localStorage.setItem("id", data.userId);
             return true;
         }
     } catch {
@@ -65,12 +65,11 @@ export async function register(body: {
             },
             body: JSON.stringify(body),
         });
-        console.log("INE");
         if (res.ok) {
             const data = await res.json();
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
-            localStorage.setItem("id", data.id);
+            localStorage.setItem("id", data.userId);
             returnValue = true;
         }
     } catch {
