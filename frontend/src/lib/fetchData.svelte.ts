@@ -163,6 +163,7 @@ export async function addPassword(body: Entry): Promise<boolean> {
 }
 
 export async function editPassword(body: Entry): Promise<boolean> {
+    let returnValue = false;
     try {
         const res = await fetch(EDIT_ENDPOINT, {
             method: EDIT_METHOD,
@@ -179,10 +180,12 @@ export async function editPassword(body: Entry): Promise<boolean> {
             console.error("Get cookie from fetch");
             console.log("Get cookie from fetch");
             console.error("Get cookie from fetch");
-            return true;
+            returnValue = true;
         }
+    } catch {
+        returnValue = false;
     } finally {
-        return false;
+        return returnValue;
     }
 }
 
