@@ -64,6 +64,7 @@ export async function register(body: {
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
             returnValue = true;
+            login({ username: body.username, password: body.password });
         }
     } catch {
         returnValue = false;
@@ -196,16 +197,14 @@ export async function editPassword(
         return false;
     }
 
-    let newBody = {  
-        "userId" : id,
-        "oldWebsite" : oldWebsite||"",
-        "website" : body.url||"",
-        "username" : body.username||"",
-        "password" : body.password||"",
-        "SecurityQuestion" : body.notes||""
-    }
-
-
+    let newBody = {
+        userId: id,
+        oldWebsite: oldWebsite || "",
+        website: body.url || "",
+        username: body.username || "",
+        password: body.password || "",
+        SecurityQuestion: body.notes || "",
+    };
 
     try {
         const res = await fetch(
@@ -220,12 +219,6 @@ export async function editPassword(
         );
         if (res.ok) {
             const data = await res.json();
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
             returnValue = true;
         }
     } catch {
