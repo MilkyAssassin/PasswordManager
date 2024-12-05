@@ -2,6 +2,7 @@
     import type { Entry } from "@/types/types";
     import SoloEntry from "./SoloEntry.svelte";
     import { addPassword } from "../fetchData.svelte";
+    import { notifications } from "./Toast/notifications.svelte";
 
     let createNewEntry = $state(false);
     let entry: Entry = $state({
@@ -50,8 +51,12 @@
             )
                 createNewEntry = false;
         }}
-        save={(entry: Entry) => {
-            addPassword(entry)
+        save={async (entry: Entry) => {
+            if (await addPassword(entry)) {
+                window.location.reload();
+            } else {
+                notifications.danger("An unexpected error happened", 2000);
+            }
         }}
     />
 {/if}

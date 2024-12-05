@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { User, Entry } from "@my-types/types";
-const API_URL = "https://pokeapi.co/api/v2/pokemon/ditto";
+// const API_URL = "https://pokeapi.co/api/v2/pokemon/ditto";
+const API_URL = "localhost:8080";
 const LOGIN_ENDPOINT = API_URL + "";
 const LOGIN_METHOD = "";
 const REGISTER_ENDPOINT = API_URL + "";
@@ -32,13 +33,9 @@ export async function login(body: {
         });
         if (res.ok) {
             const data = await res.json();
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-
+            console.log(data)
+            localStorage.setItem("data", JSON.stringify(data))
+            localStorage.setItem("authed", "true");
             return true;
         }
     } finally {
@@ -46,7 +43,8 @@ export async function login(body: {
     }
 }
 
-export async function logout(){
+export async function logout() {
+    localStorage.removeItem("data")
     localStorage.removeItem("authed");
 }
 
@@ -54,7 +52,7 @@ export async function register(body: {
     username: string;
     email: string;
     password: string;
-}) {
+}): Promise<boolean> {
     try {
         const res = await fetch(REGISTER_ENDPOINT, {
             method: REGISTER_METHOD,
@@ -102,7 +100,9 @@ export async function fetchUser(): Promise<User | null> {
     }
 }
 
-export async function deletePassword(body: { passwordId: number }) {
+export async function deletePassword(body: {
+    passwordId: number;
+}): Promise<boolean> {
     try {
         const res = await fetch(DELETE_ENDPOINT, {
             method: DELETE_METHOD,
@@ -126,7 +126,7 @@ export async function deletePassword(body: { passwordId: number }) {
     }
 }
 
-export async function addPassword(body: Entry) {
+export async function addPassword(body: Entry): Promise<boolean> {
     try {
         const res = await fetch(ADD_ENDPOINT, {
             method: ADD_METHOD,
@@ -150,7 +150,7 @@ export async function addPassword(body: Entry) {
     }
 }
 
-export async function editPassword(body: Entry) {
+export async function editPassword(body: Entry): Promise<boolean> {
     try {
         const res = await fetch(EDIT_ENDPOINT, {
             method: EDIT_METHOD,

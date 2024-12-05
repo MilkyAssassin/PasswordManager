@@ -4,7 +4,7 @@
     import SoloEntry from "../SoloEntry.svelte";
     import tippy from "tippy.js";
     import { notifications } from "../Toast/notifications.svelte";
-    import { deletePassword } from "../../fetchData.svelte";
+    import { deletePassword, editPassword } from "../../fetchData.svelte";
 
     type sortType =
         | "AlphabeticalOrder"
@@ -122,11 +122,20 @@
                 )
                     selectedEntry = null;
             }}
-            delete_entry={(entry: Entry) => {
-                deletePassword({ passwordId: entry.id });
-                alert("Write del function");
+            delete_entry={async (entry: Entry) => {
+                if (await deletePassword({ passwordId: entry.id })) {
+                    window.location.reload();
+                } else {
+                    notifications.danger("An unexpected error happened", 2000);
+                }
             }}
-            save={() => alert("Write save func")}
+            save={async (entry: Entry) => {
+                if (await editPassword(entry)) {
+                    window.location.reload();
+                } else {
+                    notifications.danger("An unexpected error happened", 2000);
+                }
+            }}
         />
     {/if}
 </div>
