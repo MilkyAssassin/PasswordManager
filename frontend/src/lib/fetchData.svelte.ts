@@ -12,6 +12,7 @@ export async function login(body: {
 }): Promise<boolean> {
     if (body.username == "test" && body.password == "test") {
         localStorage.setItem("authed", "true");
+        localStorage.setItem("id", "-9999");
         return true;
     }
     let returnValue = false;
@@ -29,7 +30,7 @@ export async function login(body: {
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
             localStorage.setItem("uname", data.username || "Unknown");
-            return true;
+            returnValue = true;
         }
     } catch {
         returnValue = false;
@@ -63,7 +64,10 @@ export async function register(body: {
             localStorage.setItem("data", JSON.stringify(data));
             localStorage.setItem("authed", "true");
             localStorage.setItem("id", data.userId);
-            returnValue = await login({ username: body.username, password: body.password });
+            returnValue = await login({
+                username: body.username,
+                password: body.password,
+            });
         }
     } catch {
         returnValue = false;
@@ -79,6 +83,9 @@ export async function fetchUser(): Promise<User | null> {
         const uname = localStorage.getItem("uname");
         if (id == null || uname == null) {
             return null;
+        }
+        if (id === "-9999") {
+            return fakeFetchUser();
         }
         const res = await fetch("http://localhost:8080/passwords/user/" + id, {
             method: "GET",
