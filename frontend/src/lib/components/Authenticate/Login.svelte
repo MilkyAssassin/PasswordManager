@@ -51,7 +51,7 @@
                 bind:value={password}
             />
             <button
-                onclick={() => (showPassword = !showPassword)}
+                onclick={(e) => {showPassword = !showPassword; e.preventDefault()}}
                 use:tooltip={() => ({
                     content: showPassword ? "Hide password" : "Show password",
                 })}

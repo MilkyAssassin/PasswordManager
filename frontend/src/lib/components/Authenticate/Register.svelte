@@ -64,7 +64,10 @@
                 bind:value={password}
             />
             <button
-                onclick={() => (showPassword = !showPassword)}
+                onclick={(e) => {
+                    showPassword = !showPassword;
+                    e.preventDefault();
+                }}
                 use:tooltip={() => ({
                     content: showPassword ? "Hide password" : "Show password",
                 })}
@@ -103,7 +106,10 @@
                 bind:value={confirmPassword}
             />
             <button
-                onclick={() => (showConfirmPassword = !showConfirmPassword)}
+                onclick={(e) => {
+                    showConfirmPassword = !showConfirmPassword;
+                    e.preventDefault();
+                }}
                 use:tooltip={() => ({
                     content: showConfirmPassword
                         ? "Hide password"
