@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { User, Entry } from "@my-types/types";
+import type { forEach } from "lodash";
 // const API_URL = "https://pokeapi.co/api/v2/pokemon/ditto";
 const API_URL = "http://localhost:8080";
 const LOGIN_ENDPOINT = API_URL + "/login";
@@ -94,8 +95,22 @@ export async function fetchUser(): Promise<User | null> {
         });
         if (res.ok) {
             const data = await res.json();
-            console.log(data);
-            alert(JSON.stringify(data));
+            const user:User = {
+                username: "",
+                vault: []
+            }
+            data.forEach((e: { userID: number; plainPassword: string; website: string; securityQuestion: string; })=>{
+                user.vault.push({
+                    id: e.userID as number,
+                    password: e.plainPassword as string,
+                    url: e.website as string,
+                    notes: e.securityQuestion as string,
+                    title: "Test",
+                    dateCreated: new Date(Date.now()),
+                    lastUsed: new Date(Date.now())
+                } as Entry)
+            })
+            
             returnValue = data;
         }
     } catch {
