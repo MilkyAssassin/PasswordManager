@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.0</version>
+		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -33,7 +33,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>3.2.0</version>
 		</dependency>
 		<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -91,26 +90,35 @@
 			<artifactId>HikariCP</artifactId>
 			<version>5.0.1</version>
     	</dependency>
+		<dependency>
+
+			<groupId>javax.validation</groupId>
+
+			<artifactId>validation-api</artifactId>
+
+			<version>2.0.1.Final</version>
+
+    	</dependency>
 
 </dependencies>
 
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.2.3</version>
-				 <configuration>
-                    <skip>true</skip>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>main.java.com.example.backend.Application</mainClass>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
-				<executions>
-					<execution>
-					<phase>none</phase>
-					</execution>
-         		</executions>
-			</plugin>
-		</plugins>
-	</build>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
