@@ -196,6 +196,15 @@ export async function editPassword(
         return false;
     }
 
+    let newBody = {  
+        "userId" : id,
+        "oldWebsite" : oldWebsite||"",
+        "website" : body.url||"",
+        "username" : body.username||"",
+        "password" : body.password||"",
+        "SecurityQuestion" : body.notes||""
+    }
+
 
 
     try {
