@@ -163,22 +163,23 @@ export async function deletePassword(body: {
 
 export async function addPassword(body: Entry): Promise<boolean> {
     let returnValue = false;
+    let newBody = {
+        userId: Math.floor(Math.random() * 2_000_000),
+        website: body.url,
+        username: body.username,
+        password: body.password,
+        newSecurityQuestion: body.notes,
+    };
     try {
-        const res = await fetch(ADD_ENDPOINT, {
-            method: ADD_METHOD,
+        const res = await fetch("localhost:8080/passwords/add", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(newBody),
         });
         if (res.ok) {
-            const data = await res.json();
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
-            console.log("Get cookie from fetch");
-            console.error("Get cookie from fetch");
+            await res.json();
             returnValue = true;
         }
     } catch {
