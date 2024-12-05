@@ -163,8 +163,12 @@ export async function deletePassword(body: {
 
 export async function addPassword(body: Entry): Promise<boolean> {
     let returnValue = false;
+    const id = localStorage.getItem("id");
+    if (id === undefined) {
+        return false;
+    }
     let newBody = {
-        userId: Math.floor(Math.random() * 2_000_000),
+        userId: id,
         website: body.url,
         username: body.username,
         password: body.password,
