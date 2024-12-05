@@ -106,8 +106,18 @@ export async function fetchUser(): Promise<User | null> {
                     website: string;
                     securityQuestion: string;
                 }) => {
+                    console.log({
+                        id: (e.userID | -1) as number,
+                        password: e.plainPassword as string,
+                        url: e.website as string,
+                        notes: e.securityQuestion as string,
+                        title: "Test",
+                        dateCreated: new Date(Date.now()),
+                        lastUsed: new Date(Date.now()),
+                    });
+
                     user.vault.push({
-                        id: e.userID as number,
+                        id: (e.userID | -1) as number,
                         password: e.plainPassword as string,
                         url: e.website as string,
                         notes: e.securityQuestion as string,
