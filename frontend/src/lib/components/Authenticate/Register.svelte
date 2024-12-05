@@ -1,7 +1,8 @@
 <script lang="ts">
     import tippy from "tippy.js";
-    
+
     let username = $state("");
+    let email = $state("");
     let password = $state("");
     let showPassword = $state(false);
     let confirmPassword = $state("");
@@ -31,7 +32,7 @@
 
 <form
     onsubmit={(e) => {
-        submit(e, username, password, "");
+        submit(e, username, password, email);
     }}
 >
     <div>
@@ -41,6 +42,15 @@
             type="text"
             required
             bind:value={username}
+        />
+    </div>
+    <div>
+        <label class="block text-lg" for="">Email:</label>
+        <input
+            class="w-full bg-[#d8cbea] rounded px-2 h-10"
+            type="text"
+            required
+            bind:value={email}
         />
     </div>
     <div>
